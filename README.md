@@ -6,6 +6,29 @@ results reveal via HubSpot, and a fully visible, editable assumptions
 panel. No build step — plain HTML/CSS/JS, same pattern as the Governance
 Readiness Assessment.
 
+## Latest revision — form-state copy fix
+
+- **Removed the "Almost there / Quick details, then your results appear
+  right below" text from the form card.** In real testing, HubSpot's own
+  embed renders its own thank-you message ("Here are your results!")
+  *inside* the iframe on submission — but our surrounding copy had no way
+  to detect that and kept showing, so the two messages stacked awkwardly.
+  Removing our redundant copy avoids the conflict entirely; the form and
+  its own confirmation now speak for themselves.
+- **Simplified the manual unlock link** from "Already submitted? Show my
+  results →" to a plain **"Show my results →" button**, and promoted it
+  from a small text link to a full secondary button — since real-world
+  testing suggests the automatic postMessage detection isn't reliably
+  firing for this specific HubSpot embed, this manual button is likely the
+  *primary* way people will proceed, not just a rare fallback, so it now
+  reads and looks like a normal next step rather than an edge-case escape
+  hatch.
+- If you want to debug the automatic detection further, add a temporary
+  `console.log(event.data)` inside the `window.addEventListener("message", ...)`
+  handler in `script.js`, submit the real form in a live deploy, and check
+  the browser console for what HubSpot actually sends — the event
+  name/shape can vary by portal configuration.
+
 ## Latest revision — enterprise UI pass + CTA removal
 
 - **"Reply Let's meet" button removed.** The HubSpot form submission is now

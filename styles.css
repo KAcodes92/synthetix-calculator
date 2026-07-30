@@ -230,16 +230,15 @@ select:focus-visible {
 
 .btn-full { width: 100%; }
 
-.form-intro { font-size: 14px; color: var(--text-secondary); margin: 0 0 20px 0; text-align: left; }
-#hubspotFormWrap .btn-link {
-  display: block;
-  margin: 18px auto 0 auto;
-  background: none; border: none;
-  color: var(--text-caption);
-  font-family: var(--font-body); font-size: 13px;
-  cursor: pointer; text-decoration: underline; text-underline-offset: 3px;
+.hs-form-frame { margin-bottom: 4px; }
+#alreadySubmittedBtn { margin-top: 18px; }
+
+.btn-secondary {
+  background: var(--white);
+  color: var(--royal);
+  border: 1.5px solid var(--line);
 }
-#hubspotFormWrap .btn-link:hover { color: var(--royal); }
+.btn-secondary:hover { border-color: var(--royal); background: rgba(10,71,201,0.04); }
 
 /* ---------- Results card ---------- */
 .results-card {
