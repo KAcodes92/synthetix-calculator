@@ -6,6 +6,46 @@ results reveal via HubSpot, and a fully visible, editable assumptions
 panel. No build step — plain HTML/CSS/JS, same pattern as the Governance
 Readiness Assessment.
 
+## Latest revision — repositioned around engagement type, not just modernization
+
+The previous version framed everything as "step-by-step modernization vs.
+big-bang replacement" — which only tells a legacy-modernization story. This
+version reframes around the actual universal differentiator: **governed,
+AI-speed delivery vs. traditional delivery**, which applies whether the
+work is modernization, a new build, an enhancement, infrastructure, or
+ongoing support.
+
+- **New primary selector: "What are you working on?"** — a 5-card grid
+  (Legacy Modernization, Greenfield Development, Brownfield Enhancement,
+  Infrastructure & Platform, Application Support), now positioned *above*
+  the industry toggle since it's the more fundamental question. Selecting
+  one changes the "systems in scope" question wording and the verb used in
+  the results narrative (modernizing / building / extending / migrating /
+  supporting).
+- **Industry moved to secondary position** — still drives the regulatory
+  phrase and the six numeric default assumptions, same as before.
+- **Comparison reframed universally**: "One big project (riskier) / Step-
+  by-step plan (safer)" → **"Traditional delivery (slower) / Synthetix
+  governed delivery (AI-speed)"**. The underlying math didn't need to
+  change — avoiding a big-project overrun still makes sense as "cost of
+  the traditional/ungoverned path" vs. "the budget you stick to with
+  governed delivery" — only the labels changed.
+- **"Delivery Savings" card now has two different N/A states**, both
+  reusing the same visual treatment (a soft green "you're doing this
+  right" card, not a dimmed/greyed-out one):
+  - **Application Support** is a pure ongoing play with no discrete
+    project to compare, so Delivery Savings always reads "Ongoing play"
+    for that engagement type.
+  - **"Already using governed, audited AI delivery"** (the third option
+    in the delivery-approach question) also hides Delivery Savings, since
+    there's no traditional-delivery cost left to avoid.
+- **Fixed a real animation bug found during this pass**: switching to
+  either N/A state was setting the text correctly, but a still-running
+  count-up animation from the *previous* state kept overwriting it a
+  moment later. Fixed with a generation-token system that cancels stale
+  animations — verified by cycling through states rapidly and confirming
+  the N/A text now holds instead of flickering back to a dollar figure.
+
 ## Latest revision — form-state copy fix
 
 - **Removed the "Almost there / Quick details, then your results appear
