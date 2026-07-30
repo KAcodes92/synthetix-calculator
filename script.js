@@ -2,14 +2,11 @@
    SYNTHETIX — Savings Estimator
    ============================================ */
 
-const CONTACT_EMAIL = "hello@synthetix.ai"; // TODO: replace with live inbox
-
 // ---------- Industry context ----------
 // NOTE: overrunLow/High, maintLow/High, engCost, and auditCost are
 // starting-point assumptions, tailored per industry as reasonable
 // directional differences — NOT sourced benchmark data. Replace with real
-// figures once your team/finance validates them. They're fully editable
-// in the UI regardless.
+// figures once your team/finance validates them. Fully editable in the UI.
 const INDUSTRIES = {
   bfsi: {
     label: "Banking & Financial Services",
@@ -34,17 +31,24 @@ const INDUSTRIES = {
   }
 };
 
+const INDUSTRY_ORDER = ["bfsi", "insurance", "healthcare"];
+
 // ---------- Bucket midpoints (representative anchors, not precise figures) ----------
 const BUDGET_MIDPOINT = { lt2m: 1250000, "2to10m": 6000000, "10to50m": 30000000, "50mplus": 65000000 };
 const ENGINEER_MIDPOINT = { "1-5": 3, "6-15": 10, "16-40": 28, "40+": 55 };
 const HOURS_SAVED_PER_CHANGE = { minutes: 0, hours: 2, days: 8, weeks: 32 };
 const CHANGES_PER_YEAR = { "1": 40, "2-5": 90, "6+": 160 };
 
-let state = { industry: "bfsi", unlocked: false };
+let state = {
+  industry: "bfsi",
+  unlocked: false,
+  displayed: { capexLow: 0, capexHigh: 0, opexLow: 0, opexHigh: 0 }
+};
 
 // ---------- DOM refs ----------
 const els = {
   toggleButtons: document.querySelectorAll("#industryToggle .segment"),
+  segmentIndicator: document.getElementById("segmentIndicator"),
   systemsFieldLabel: document.getElementById("systemsFieldLabel"),
 
   budget: document.getElementById("in-budget"),
@@ -71,6 +75,7 @@ const els = {
   barBigBangValue: document.getElementById("barBigBangValue"),
   barGoverned: document.getElementById("barGoverned"),
   barGovernedValue: document.getElementById("barGovernedValue"),
+  compareDelta: document.getElementById("compareDelta"),
 
   assumptionsToggle: document.getElementById("assumptionsToggle"),
   assumptionsPanel: document.getElementById("assumptionsPanel"),
@@ -82,19 +87,22 @@ const els = {
   engCost: document.getElementById("a-engCost"),
   auditCost: document.getElementById("a-auditCost"),
 
-  meetCta: document.getElementById("meetCta"),
   year: document.getElementById("year")
 };
 
 // ---------- Formatting ----------
 const fmtCompact = (n) => new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", notation: "compact", maximumFractionDigits: 1 }).format(n);
-const fmtFull = (n) => new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 }).format(n);
 
-// ---------- Industry toggle ----------
-els.toggleButtons.forEach(btn => {
+// ---------- Segmented control ----------
+function moveIndicator(index) {
+  els.segmentIndicator.style.transform = `translateX(${index * 100}%)`;
+}
+
+els.toggleButtons.forEach((btn, i) => {
   btn.addEventListener("click", () => {
     els.toggleButtons.forEach(b => b.setAttribute("aria-selected", "false"));
     btn.setAttribute("aria-selected", "true");
+    moveIndicator(i);
     state.industry = btn.dataset.industry;
     applyIndustryDefaults();
     recalculate();
@@ -116,7 +124,6 @@ function applyIndustryDefaults() {
 els.seeResultsBtn.addEventListener("click", () => {
   els.lockedPrompt.hidden = true;
   els.hubspotFormWrap.hidden = false;
-  els.hubspotFormWrap.scrollIntoView({ behavior: "smooth", block: "start" });
 });
 
 els.alreadySubmittedBtn.addEventListener("click", unlockResults);
@@ -138,7 +145,6 @@ function unlockResults() {
   els.resultsArea.hidden = false;
   els.resultsArea.dataset.revealing = "true";
   recalculate();
-  els.resultsArea.scrollIntoView({ behavior: "smooth", block: "start" });
 }
 
 // ---------- Assumptions panel toggle ----------
@@ -148,7 +154,7 @@ els.assumptionsToggle.addEventListener("click", () => {
   els.assumptionsPanel.hidden = isOpen;
 });
 
-// ---------- Wire up recalculation (only visible effect once unlocked) ----------
+// ---------- Wire up recalculation ----------
 [els.budget, els.approach, els.systems, els.engineers, els.evidence, els.horizon].forEach(el =>
   el.addEventListener("change", recalculate)
 );
@@ -156,9 +162,23 @@ els.assumptionsToggle.addEventListener("click", () => {
   el.addEventListener("input", recalculate)
 );
 
+// ---------- Animated number tween ----------
+function tweenRange(el, fromLow, toLow, fromHigh, toHigh, duration = 650) {
+  const start = performance.now();
+  function frame(now) {
+    const t = Math.min((now - start) / duration, 1);
+    const eased = 1 - Math.pow(1 - t, 3);
+    const curLow = fromLow + (toLow - fromLow) * eased;
+    const curHigh = fromHigh + (toHigh - fromHigh) * eased;
+    el.textContent = `${fmtCompact(curLow)}–${fmtCompact(curHigh)}`;
+    if (t < 1) requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
+}
+
 // ---------- Core calculation ----------
 function recalculate() {
-  if (!state.unlocked) return; // don't bother computing/rendering until revealed
+  if (!state.unlocked) return;
 
   const ind = INDUSTRIES[state.industry];
 
@@ -179,41 +199,42 @@ function recalculate() {
 
   const budgetMidpoint = BUDGET_MIDPOINT[budgetKey];
 
-  // ---- Upfront (capex) savings ----
+  // ---- Upfront savings ----
   const capexLow = budgetMidpoint * overrunLow;
   const capexHigh = budgetMidpoint * overrunHigh;
   const showCapex = approach !== "incremental";
 
-  // ---- Yearly (opex): legacy maintenance reduction ----
+  // ---- Yearly savings: legacy maintenance reduction ----
   const engineerMidpoint = ENGINEER_MIDPOINT[engineersKey];
   const annualMaintenanceSpend = engineerMidpoint * engCost;
   const maintSavingsLow = annualMaintenanceSpend * maintLow;
   const maintSavingsHigh = annualMaintenanceSpend * maintHigh;
 
-  // ---- Yearly (opex): audit-prep time savings ----
+  // ---- Yearly savings: audit-prep time ----
   const hoursSavedPerChange = HOURS_SAVED_PER_CHANGE[evidenceKey];
   const changesPerYear = CHANGES_PER_YEAR[systemsKey];
   const auditPrepSavingsAnnual = hoursSavedPerChange * changesPerYear * auditCost;
 
-  // ---- Totals over horizon ----
   const opexLow = (maintSavingsLow + auditPrepSavingsAnnual) * horizonYears;
   const opexHigh = (maintSavingsHigh + auditPrepSavingsAnnual) * horizonYears;
 
   // ---- Render: upfront savings card ----
   if (showCapex) {
-    els.capexCard.style.opacity = "1";
-    els.capexValue.textContent = `${fmtCompact(capexLow)}–${fmtCompact(capexHigh)}`;
+    els.capexCard.classList.remove("result-card--na");
     els.capexSub.textContent = "Compared to one big, risky project";
+    tweenRange(els.capexValue, state.displayed.capexLow, capexLow, state.displayed.capexHigh, capexHigh);
   } else {
-    els.capexValue.textContent = "N/A";
+    els.capexCard.classList.add("result-card--na");
+    els.capexValue.textContent = "Already lean";
     els.capexSub.textContent = "You're already doing this step-by-step — nice.";
-    els.capexCard.style.opacity = "0.55";
   }
 
   // ---- Render: yearly savings card ----
-  const horizonLabelText = horizonMonths === 12 ? "1 YEAR" : horizonMonths === 24 ? "2 YEARS" : "3 YEARS";
+  const horizonLabelText = horizonMonths === 12 ? "1 YR" : horizonMonths === 24 ? "2 YRS" : "3 YRS";
   els.horizonLabel.textContent = `/ ${horizonLabelText}`;
-  els.opexValue.textContent = `${fmtCompact(opexLow)}–${fmtCompact(opexHigh)}`;
+  tweenRange(els.opexValue, state.displayed.opexLow, opexLow, state.displayed.opexHigh, opexHigh);
+
+  state.displayed = { capexLow: showCapex ? capexLow : 0, capexHigh: showCapex ? capexHigh : 0, opexLow, opexHigh };
 
   // ---- Context line ----
   els.contextLine.textContent = showCapex
@@ -232,15 +253,11 @@ function recalculate() {
   els.barBigBangValue.textContent = fmtCompact(bigBangExposure);
   els.barGovernedValue.textContent = fmtCompact(governedBudget);
 
-  // ---- CTA ----
-  const subject = encodeURIComponent("Let's meet");
-  const capexText = showCapex ? `upfront savings ${fmtFull(capexLow)}–${fmtFull(capexHigh)}, ` : "";
-  const body = encodeURIComponent(
-    `Hi,\n\nI used the Savings Estimator for ${ind.label} and got: ${capexText}yearly savings ${fmtFull(opexLow)}–${fmtFull(opexHigh)} over ${horizonLabelText.toLowerCase()}.\n\nI'd like to talk through what this could look like for us.\n\nA few times that work for me:\n`
-  );
-  els.meetCta.href = `mailto:${CONTACT_EMAIL}?subject=${subject}&body=${body}`;
+  const delta = bigBangExposure - governedBudget;
+  els.compareDelta.innerHTML = `That's roughly <strong>${fmtCompact(delta)}</strong> lower with the step-by-step plan.`;
 }
 
 // ---------- Init ----------
 els.year.textContent = new Date().getFullYear();
 applyIndustryDefaults();
+moveIndicator(0);

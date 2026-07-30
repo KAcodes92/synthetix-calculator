@@ -8,7 +8,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
 <link rel="icon" href="assets/logo.png">
 
@@ -20,202 +20,229 @@
 <div class="wash" aria-hidden="true"></div>
 <div class="gridlines" aria-hidden="true"></div>
 
-<main class="app">
-
-  <!-- ============ HEADER ============ -->
-  <header class="app-header">
+<!-- ============ HEADER ============ -->
+<header class="app-header">
+  <div class="app-header-inner">
     <img src="assets/logo.png" width="171" height="24" alt="Synthetix — Engineered Intelligence" class="logo">
     <span class="header-tag mono">SAVINGS ESTIMATOR</span>
-  </header>
+  </div>
+</header>
+
+<main class="app">
 
   <!-- ============ INTRO ============ -->
   <section class="intro">
-    <p class="eyebrow mono">QUICK ESTIMATE</p>
+    <p class="eyebrow mono">QUICK ESTIMATE · 6 QUESTIONS</p>
     <h1 class="display">How much could you save by modernizing step-by-step?</h1>
-    <p class="lede">Answer six quick questions and see your numbers. You can change any of our starting assumptions and watch the results update instantly.</p>
+    <p class="lede">Answer a few questions about your organization and see your estimate. Every assumption behind the math is visible and yours to adjust.</p>
   </section>
 
-  <!-- ============ INDUSTRY TOGGLE ============ -->
-  <section class="block">
-    <p class="block-label mono">INDUSTRY</p>
-    <div class="segmented" id="industryToggle" role="tablist">
-      <button class="segment" data-industry="bfsi" role="tab" aria-selected="true">Banking &amp; Financial Services</button>
-      <button class="segment" data-industry="insurance" role="tab" aria-selected="false">Insurance</button>
-      <button class="segment" data-industry="healthcare" role="tab" aria-selected="false">Healthcare</button>
-    </div>
-  </section>
+  <!-- ============ DASHBOARD GRID ============ -->
+  <div class="dashboard-grid">
 
-  <!-- ============ INPUTS ============ -->
-  <section class="block">
-    <p class="block-label mono">YOUR SITUATION</p>
-    <div class="input-grid">
+    <!-- ---------- LEFT PANEL: Configure ---------- -->
+    <div class="panel panel-left">
 
-      <label class="field">
-        <span class="field-label">How much do you expect to spend upgrading these systems?</span>
-        <select id="in-budget">
-          <option value="lt2m">Less than $2M</option>
-          <option value="2to10m">$2M – $10M</option>
-          <option value="10to50m" selected>$10M – $50M</option>
-          <option value="50mplus">$50M+</option>
-        </select>
-      </label>
-
-      <label class="field">
-        <span class="field-label">What's your plan today?</span>
-        <select id="in-approach">
-          <option value="bigbang" selected>One big replacement, all at once</option>
-          <option value="notstarted">Haven't started yet</option>
-          <option value="incremental">Already doing it step-by-step</option>
-        </select>
-      </label>
-
-      <label class="field">
-        <span class="field-label" id="systemsFieldLabel">How many core banking systems need updating?</span>
-        <select id="in-systems">
-          <option value="1">1</option>
-          <option value="2-5" selected>2 – 5</option>
-          <option value="6+">6+</option>
-        </select>
-      </label>
-
-      <label class="field">
-        <span class="field-label">How many engineers keep your old systems running?</span>
-        <select id="in-engineers">
-          <option value="1-5">1 – 5</option>
-          <option value="6-15" selected>6 – 15</option>
-          <option value="16-40">16 – 40</option>
-          <option value="40+">40+</option>
-        </select>
-      </label>
-
-      <label class="field">
-        <span class="field-label">How long does it take to prove a change was done right, today?</span>
-        <select id="in-evidence">
-          <option value="minutes">Minutes</option>
-          <option value="hours">Hours</option>
-          <option value="days" selected>Days</option>
-          <option value="weeks">Weeks</option>
-        </select>
-      </label>
-
-      <label class="field">
-        <span class="field-label">How far ahead are you planning?</span>
-        <select id="in-horizon">
-          <option value="12">1 year</option>
-          <option value="24" selected>2 years</option>
-          <option value="36">3 years</option>
-        </select>
-      </label>
-
-    </div>
-  </section>
-
-  <!-- ============ GATE: See My Results button ============ -->
-  <section class="block" id="lockedPrompt">
-    <button class="btn btn-primary btn-full" id="seeResultsBtn">
-      See my results <span class="arrow">→</span>
-    </button>
-    <p class="lock-note">Takes 10 seconds — we'll show you a quick form, then your numbers.</p>
-  </section>
-
-  <!-- ============ GATE: HubSpot form (shown after clicking "See my results") ============ -->
-  <section class="block" id="hubspotFormWrap" hidden>
-    <p class="block-label mono">ALMOST THERE</p>
-    <p class="form-intro">Quick details, then your results appear right below.</p>
-    <div class="hs-form-frame" data-region="na1" data-form-id="423f3e39-6d6b-4f29-a942-782e7a29f076" data-portal-id="40221584"></div>
-    <button class="btn-link" id="alreadySubmittedBtn">Already submitted? Show my results →</button>
-  </section>
-
-  <!-- ============ RESULTS (revealed after form submission) ============ -->
-  <section class="block results-block" id="resultsArea" hidden>
-    <p class="block-label mono">YOUR ESTIMATED SAVINGS</p>
-
-    <div class="result-cards">
-      <div class="result-card" id="capexCard">
-        <span class="result-label mono">UPFRONT SAVINGS</span>
-        <span class="result-value display" id="capexValue">—</span>
-        <span class="result-sub" id="capexSub">Compared to one big, risky project</span>
-      </div>
-      <div class="result-card">
-        <span class="result-label mono">YEARLY SAVINGS <span id="horizonLabel">/ 2 YEARS</span></span>
-        <span class="result-value display" id="opexValue">—</span>
-        <span class="result-sub">Less spent maintaining old systems and preparing for audits</span>
-      </div>
-    </div>
-
-    <p class="context-line" id="contextLine"></p>
-
-    <div class="compare-chart">
-      <div class="compare-row">
-        <span class="compare-label">One big project <span class="compare-tag mono">RISKIER</span></span>
-        <div class="compare-track">
-          <div class="compare-fill compare-fill--risk" id="barBigBang"></div>
-        </div>
-        <span class="compare-value mono" id="barBigBangValue">—</span>
-      </div>
-      <div class="compare-row">
-        <span class="compare-label">Step-by-step plan <span class="compare-tag mono">SAFER</span></span>
-        <div class="compare-track">
-          <div class="compare-fill compare-fill--governed" id="barGoverned"></div>
-        </div>
-        <span class="compare-value mono" id="barGovernedValue">—</span>
-      </div>
-    </div>
-
-    <p class="disclaimer">This is a simple estimate based on what you enter — not an official quote.</p>
-
-    <button class="assumptions-toggle" id="assumptionsToggle" aria-expanded="false">
-      <span>How we got these numbers</span>
-      <span class="chevron mono" id="assumptionsChevron">▾</span>
-    </button>
-
-    <div class="assumptions-panel" id="assumptionsPanel" hidden>
-      <p class="assumptions-note">These are starting estimates, tailored a little by industry. Change any number below and your results update right away.</p>
-
-      <div class="assumption-row">
-        <span class="assumption-label">Extra cost usually avoided by not doing one big project (low–high)</span>
-        <div class="assumption-inputs">
-          <input type="number" id="a-overrunLow" value="20" min="0" max="100"> %
-          <span class="dash">–</span>
-          <input type="number" id="a-overrunHigh" value="35" min="0" max="100"> %
+      <div class="card">
+        <p class="card-eyebrow mono">01 — INDUSTRY</p>
+        <div class="segmented" id="industryToggle" role="tablist">
+          <div class="segment-indicator" id="segmentIndicator" aria-hidden="true"></div>
+          <button class="segment" data-industry="bfsi" role="tab" aria-selected="true">Banking &amp; Financial Services</button>
+          <button class="segment" data-industry="insurance" role="tab" aria-selected="false">Insurance</button>
+          <button class="segment" data-industry="healthcare" role="tab" aria-selected="false">Healthcare</button>
         </div>
       </div>
 
-      <div class="assumption-row">
-        <span class="assumption-label">How much less you'll spend maintaining old systems (low–high)</span>
-        <div class="assumption-inputs">
-          <input type="number" id="a-maintLow" value="15" min="0" max="100"> %
-          <span class="dash">–</span>
-          <input type="number" id="a-maintHigh" value="25" min="0" max="100"> %
+      <div class="card">
+        <p class="card-eyebrow mono">02 — YOUR SITUATION</p>
+        <div class="input-grid">
+
+          <label class="field">
+            <span class="field-label">How much do you expect to spend upgrading these systems?</span>
+            <div class="select-wrap">
+              <select id="in-budget">
+                <option value="lt2m">Less than $2M</option>
+                <option value="2to10m">$2M – $10M</option>
+                <option value="10to50m" selected>$10M – $50M</option>
+                <option value="50mplus">$50M+</option>
+              </select>
+            </div>
+          </label>
+
+          <label class="field">
+            <span class="field-label">What's your plan today?</span>
+            <div class="select-wrap">
+              <select id="in-approach">
+                <option value="bigbang" selected>One big replacement, all at once</option>
+                <option value="notstarted">Haven't started yet</option>
+                <option value="incremental">Already doing it step-by-step</option>
+              </select>
+            </div>
+          </label>
+
+          <label class="field">
+            <span class="field-label" id="systemsFieldLabel">How many core banking systems need updating?</span>
+            <div class="select-wrap">
+              <select id="in-systems">
+                <option value="1">1</option>
+                <option value="2-5" selected>2 – 5</option>
+                <option value="6+">6+</option>
+              </select>
+            </div>
+          </label>
+
+          <label class="field">
+            <span class="field-label">How many engineers keep your old systems running?</span>
+            <div class="select-wrap">
+              <select id="in-engineers">
+                <option value="1-5">1 – 5</option>
+                <option value="6-15" selected>6 – 15</option>
+                <option value="16-40">16 – 40</option>
+                <option value="40+">40+</option>
+              </select>
+            </div>
+          </label>
+
+          <label class="field">
+            <span class="field-label">How long does it take to prove a change was done right, today?</span>
+            <div class="select-wrap">
+              <select id="in-evidence">
+                <option value="minutes">Minutes</option>
+                <option value="hours">Hours</option>
+                <option value="days" selected>Days</option>
+                <option value="weeks">Weeks</option>
+              </select>
+            </div>
+          </label>
+
+          <label class="field">
+            <span class="field-label">How far ahead are you planning?</span>
+            <div class="select-wrap">
+              <select id="in-horizon">
+                <option value="12">1 year</option>
+                <option value="24" selected>2 years</option>
+                <option value="36">3 years</option>
+              </select>
+            </div>
+          </label>
+
         </div>
       </div>
 
-      <div class="assumption-row">
-        <span class="assumption-label">What one engineer costs your company per year</span>
-        <div class="assumption-inputs">
-          $ <input type="number" id="a-engCost" value="165000" min="0" step="5000">
-        </div>
-      </div>
-
-      <div class="assumption-row">
-        <span class="assumption-label">What it costs per hour to prepare for an audit</span>
-        <div class="assumption-inputs">
-          $ <input type="number" id="a-auditCost" value="120" min="0" step="5">
-        </div>
-      </div>
-
-      <p class="assumptions-note assumptions-note--ref">Fixed reference numbers (shown so nothing's hidden):</p>
-      <div class="ref-table mono">
-        <div class="ref-row"><span>Hours saved per update — if proof takes minutes / hours / days / weeks today</span><span>0 / 2 / 8 / 32</span></div>
-        <div class="ref-row"><span>Updates per year — if you have 1 / 2–5 / 6+ systems</span><span>40 / 90 / 160</span></div>
-      </div>
     </div>
 
-    <div class="cta-row">
-      <a class="btn btn-primary" id="meetCta" href="#">Reply "Let's meet" <span class="arrow">→</span></a>
-    </div>
-  </section>
+    <!-- ---------- RIGHT PANEL: Results ---------- -->
+    <div class="panel panel-right">
 
+      <!-- Locked state -->
+      <div class="card card-gate" id="lockedPrompt">
+        <div class="gate-icon" aria-hidden="true">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none"><path d="M12 2L4 6v6c0 5 3.4 8.4 8 10 4.6-1.6 8-5 8-10V6l-8-4z" stroke="#0A47C9" stroke-width="1.6" stroke-linejoin="round"/><path d="M9 12l2 2 4-4" stroke="#0A47C9" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <h2 class="gate-title display">Your results are ready</h2>
+        <p class="gate-copy">Complete the form to unlock your personalized savings estimate.</p>
+        <button class="btn btn-primary btn-full" id="seeResultsBtn">
+          See my results <span class="arrow">→</span>
+        </button>
+      </div>
+
+      <!-- Form state -->
+      <div class="card card-gate" id="hubspotFormWrap" hidden>
+        <p class="card-eyebrow mono">ALMOST THERE</p>
+        <p class="form-intro">Quick details, then your results appear right below.</p>
+        <div class="hs-form-frame" data-region="na1" data-form-id="423f3e39-6d6b-4f29-a942-782e7a29f076" data-portal-id="40221584"></div>
+        <button class="btn-link" id="alreadySubmittedBtn">Already submitted? Show my results →</button>
+      </div>
+
+      <!-- Results state -->
+      <div class="card results-card" id="resultsArea" hidden>
+        <p class="card-eyebrow mono">YOUR ESTIMATED IMPACT</p>
+
+        <div class="result-cards">
+          <div class="result-card" id="capexCard">
+            <span class="result-label mono">UPFRONT SAVINGS</span>
+            <span class="result-value display" id="capexValue">$0</span>
+            <span class="result-sub" id="capexSub">Compared to one big, risky project</span>
+          </div>
+          <div class="result-card">
+            <span class="result-label mono">YEARLY SAVINGS <span id="horizonLabel">/ 2 YRS</span></span>
+            <span class="result-value display" id="opexValue">$0</span>
+            <span class="result-sub">Less spent on upkeep and audit prep</span>
+          </div>
+        </div>
+
+        <p class="context-line" id="contextLine"></p>
+
+        <div class="compare-chart">
+          <div class="compare-row">
+            <span class="compare-label">One big project <span class="compare-tag compare-tag--risk mono">RISKIER</span></span>
+            <div class="compare-track">
+              <div class="compare-fill compare-fill--risk" id="barBigBang"><span class="compare-value-inline mono" id="barBigBangValue"></span></div>
+            </div>
+          </div>
+          <div class="compare-row">
+            <span class="compare-label">Step-by-step plan <span class="compare-tag compare-tag--safe mono">SAFER</span></span>
+            <div class="compare-track">
+              <div class="compare-fill compare-fill--governed" id="barGoverned"><span class="compare-value-inline mono" id="barGovernedValue"></span></div>
+            </div>
+          </div>
+          <p class="compare-delta" id="compareDelta"></p>
+        </div>
+
+        <p class="disclaimer">This is a simple estimate based on what you enter — not an official quote.</p>
+
+        <button class="assumptions-toggle" id="assumptionsToggle" aria-expanded="false">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" style="flex:none;"><path d="M12 15a3 3 0 100-6 3 3 0 000 6z" stroke="currentColor" stroke-width="1.8"/><path d="M19.4 13a1.7 1.7 0 00.3 1.9l.1.1a2 2 0 11-2.9 2.9l-.1-.1a1.7 1.7 0 00-1.9-.3 1.7 1.7 0 00-1 1.6V19a2 2 0 11-4 0v-.1a1.7 1.7 0 00-1-1.6 1.7 1.7 0 00-1.9.3l-.1.1a2 2 0 11-2.9-2.9l.1-.1a1.7 1.7 0 00.3-1.9 1.7 1.7 0 00-1.6-1H2a2 2 0 110-4h.1a1.7 1.7 0 001.6-1 1.7 1.7 0 00-.3-1.9l-.1-.1a2 2 0 112.9-2.9l.1.1a1.7 1.7 0 001.9.3H8a1.7 1.7 0 001-1.6V2a2 2 0 114 0v.1a1.7 1.7 0 001 1.6 1.7 1.7 0 001.9-.3l.1-.1a2 2 0 112.9 2.9l-.1.1a1.7 1.7 0 00-.3 1.9V8a1.7 1.7 0 001.6 1H22a2 2 0 110 4h-.1a1.7 1.7 0 00-1.6 1z" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span>How we got these numbers</span>
+          <span class="chevron mono" id="assumptionsChevron">▾</span>
+        </button>
+
+        <div class="assumptions-panel" id="assumptionsPanel" hidden>
+          <p class="assumptions-note">Starting estimates, tailored a little by industry. Change any number and your results update instantly.</p>
+
+          <div class="assumption-row">
+            <span class="assumption-label">Extra cost usually avoided by not doing one big project (low–high)</span>
+            <div class="assumption-inputs">
+              <input type="number" id="a-overrunLow" value="20" min="0" max="100"> %
+              <span class="dash">–</span>
+              <input type="number" id="a-overrunHigh" value="35" min="0" max="100"> %
+            </div>
+          </div>
+
+          <div class="assumption-row">
+            <span class="assumption-label">How much less you'll spend maintaining old systems (low–high)</span>
+            <div class="assumption-inputs">
+              <input type="number" id="a-maintLow" value="15" min="0" max="100"> %
+              <span class="dash">–</span>
+              <input type="number" id="a-maintHigh" value="25" min="0" max="100"> %
+            </div>
+          </div>
+
+          <div class="assumption-row">
+            <span class="assumption-label">What one engineer costs your company per year</span>
+            <div class="assumption-inputs">
+              $ <input type="number" id="a-engCost" value="165000" min="0" step="5000">
+            </div>
+          </div>
+
+          <div class="assumption-row">
+            <span class="assumption-label">What it costs per hour to prepare for an audit</span>
+            <div class="assumption-inputs">
+              $ <input type="number" id="a-auditCost" value="120" min="0" step="5">
+            </div>
+          </div>
+
+          <p class="assumptions-note assumptions-note--ref">Fixed reference numbers (shown so nothing's hidden):</p>
+          <div class="ref-table mono">
+            <div class="ref-row"><span>Hours saved per update — if proof takes minutes / hours / days / weeks today</span><span>0 / 2 / 8 / 32</span></div>
+            <div class="ref-row"><span>Updates per year — if you have 1 / 2–5 / 6+ systems</span><span>40 / 90 / 160</span></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
 </main>
 
 <footer class="site-footer">

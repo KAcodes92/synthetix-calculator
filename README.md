@@ -6,22 +6,41 @@ results reveal via HubSpot, and a fully visible, editable assumptions
 panel. No build step — plain HTML/CSS/JS, same pattern as the Governance
 Readiness Assessment.
 
-## What changed in this version
+## Latest revision — enterprise UI pass + CTA removal
+
+- **"Reply Let's meet" button removed.** The HubSpot form submission is now
+  the only conversion point — results no longer end with a second CTA.
+- **Two-panel dashboard layout.** Inputs live in a sticky left panel;
+  results/gate live in a sticky right panel (on desktop, ≥900px). Stacks to
+  a single column on mobile.
+- **Sliding segmented control** for the industry toggle — a solid indicator
+  animates between the three options rather than instantly swapping
+  background color.
+- **Animated number reveals.** Result values count up/down smoothly when
+  they change, instead of jumping instantly — same easing curve as the
+  Governance Assessment's gauge.
+- **Refined data visualization.** The comparison chart now shows the dollar
+  value directly inside each bar, includes subtle gridlines, and adds a
+  plain-English delta line ("That's roughly $X lower with the step-by-step
+  plan") pulled directly from the two figures already shown — not a new
+  invented metric.
+- **Elevated visual system throughout:** soft card shadows, generous
+  spacing, a gradient top-accent on the results card, hover states on
+  result cards, a sticky translucent header with backdrop blur — aiming at
+  the same visual bar as Stripe/Vercel-style enterprise SaaS tools rather
+  than a plain web form.
+
+## What changed in the previous revision (for reference)
 
 - **Industry now actually changes the numbers.** Each industry carries its
   own starting assumptions (overrun %, maintenance-reduction %, cost per
   engineer, cost per audit hour) — switching the toggle resets these to
   that industry's defaults, so identical situational inputs produce
-  different results across industries. Previously the toggle only changed
-  copy, which made it look broken.
+  different results across industries.
 - **Copy simplified throughout** — plain, everyday language instead of
-  finance/technical jargon (e.g., "Upfront savings" instead of "Capex
-  avoided," "One big project" instead of "Big-bang path").
-- **Guide button removed** — the CTA row now has a single button.
-- **Results are gated behind a HubSpot form.** Filling in the six inputs
-  no longer reveals results directly. A "See my results" button appears;
-  clicking it reveals the HubSpot form (embed code exactly as provided);
-  submitting it reveals the results below.
+  finance/technical jargon.
+- **Results are gated behind a HubSpot form** (see "How the HubSpot gate
+  works" below).
 
 ## Files
 
