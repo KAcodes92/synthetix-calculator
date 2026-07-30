@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Capex/Opex Calculator | Synthetix</title>
+<meta name="description" content="See a directional estimate of capex avoided and opex reduced by choosing governed, wave-based modernization — based on your inputs, with every assumption visible and adjustable.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<link rel="icon" href="assets/logo.png">
+</head>
+<body>
+
+<div class="wash" aria-hidden="true"></div>
+<div class="gridlines" aria-hidden="true"></div>
+
+<main class="app">
+
+  <!-- ============ HEADER ============ -->
+  <header class="app-header">
+    <img src="assets/logo.png" width="171" height="24" alt="Synthetix — Engineered Intelligence" class="logo">
+    <span class="header-tag mono">CAPEX / OPEX ESTIMATOR</span>
+  </header>
+
+  <!-- ============ INTRO ============ -->
+  <section class="intro">
+    <p class="eyebrow mono">DIRECTIONAL PLANNING ESTIMATE</p>
+    <h1 class="display">What does governed, wave-based modernization save?</h1>
+    <p class="lede">Six inputs, live results. Every assumption behind the math is visible below — adjust anything you'd model differently.</p>
+  </section>
+
+  <!-- ============ INDUSTRY TOGGLE ============ -->
+  <section class="block">
+    <p class="block-label mono">INDUSTRY</p>
+    <div class="segmented" id="industryToggle" role="tablist">
+      <button class="segment" data-industry="bfsi" role="tab" aria-selected="true">Banking &amp; Financial Services</button>
+      <button class="segment" data-industry="insurance" role="tab" aria-selected="false">Insurance</button>
+      <button class="segment" data-industry="healthcare" role="tab" aria-selected="false">Healthcare</button>
+    </div>
+  </section>
+
+  <!-- ============ INPUTS ============ -->
+  <section class="block">
+    <p class="block-label mono">YOUR SITUATION</p>
+    <div class="input-grid">
+
+      <label class="field">
+        <span class="field-label">Annual modernization program budget</span>
+        <select id="in-budget">
+          <option value="lt2m">Less than $2M</option>
+          <option value="2to10m">$2M – $10M</option>
+          <option value="10to50m" selected>$10M – $50M</option>
+          <option value="50mplus">$50M+</option>
+        </select>
+      </label>
+
+      <label class="field">
+        <span class="field-label">Current modernization approach</span>
+        <select id="in-approach">
+          <option value="bigbang" selected>Planning a big-bang replacement</option>
+          <option value="notstarted">Not yet started</option>
+          <option value="incremental">Already incremental</option>
+        </select>
+      </label>
+
+      <label class="field">
+        <span class="field-label">Legacy systems in scope</span>
+        <select id="in-systems">
+          <option value="1">1</option>
+          <option value="2-5" selected>2 – 5</option>
+          <option value="6+">6+</option>
+        </select>
+      </label>
+
+      <label class="field">
+        <span class="field-label">Engineers on legacy maintenance</span>
+        <select id="in-engineers">
+          <option value="1-5">1 – 5</option>
+          <option value="6-15" selected>6 – 15</option>
+          <option value="16-40">16 – 40</option>
+          <option value="40+">40+</option>
+        </select>
+      </label>
+
+      <label class="field">
+        <span class="field-label">Time to produce audit evidence today</span>
+        <select id="in-evidence">
+          <option value="minutes">Minutes</option>
+          <option value="hours">Hours</option>
+          <option value="days" selected>Days</option>
+          <option value="weeks">Weeks</option>
+        </select>
+      </label>
+
+      <label class="field">
+        <span class="field-label">Planning horizon</span>
+        <select id="in-horizon">
+          <option value="12">12 months</option>
+          <option value="24" selected>24 months</option>
+          <option value="36">36 months</option>
+        </select>
+      </label>
+
+    </div>
+  </section>
+
+  <!-- ============ RESULTS ============ -->
+  <section class="block results-block">
+    <p class="block-label mono">ESTIMATED IMPACT</p>
+
+    <div class="result-cards">
+      <div class="result-card" id="capexCard">
+        <span class="result-label mono">CAPEX AVOIDED</span>
+        <span class="result-value display" id="capexValue">—</span>
+        <span class="result-sub" id="capexSub">vs. a typical big-bang replacement</span>
+      </div>
+      <div class="result-card">
+        <span class="result-label mono">OPEX REDUCTION <span id="horizonLabel">/ 24 MO</span></span>
+        <span class="result-value display" id="opexValue">—</span>
+        <span class="result-sub">legacy maintenance + audit-prep time</span>
+      </div>
+    </div>
+
+    <p class="context-line" id="contextLine"></p>
+
+    <!-- Comparison bar chart -->
+    <div class="compare-chart">
+      <div class="compare-row">
+        <span class="compare-label">Big-bang path <span class="compare-tag mono">TYPICAL EXPOSURE</span></span>
+        <div class="compare-track">
+          <div class="compare-fill compare-fill--risk" id="barBigBang"></div>
+        </div>
+        <span class="compare-value mono" id="barBigBangValue">—</span>
+      </div>
+      <div class="compare-row">
+        <span class="compare-label">Governed, wave-based path <span class="compare-tag mono">BUDGETED</span></span>
+        <div class="compare-track">
+          <div class="compare-fill compare-fill--governed" id="barGoverned"></div>
+        </div>
+        <span class="compare-value mono" id="barGovernedValue">—</span>
+      </div>
+    </div>
+
+    <p class="disclaimer">A directional planning estimate based on your inputs and the adjustable assumptions below — not a quote or audited projection.</p>
+  </section>
+
+  <!-- ============ ASSUMPTIONS PANEL ============ -->
+  <section class="block">
+    <button class="assumptions-toggle" id="assumptionsToggle" aria-expanded="false">
+      <span>Assumptions used</span>
+      <span class="chevron mono" id="assumptionsChevron">▾</span>
+    </button>
+
+    <div class="assumptions-panel" id="assumptionsPanel" hidden>
+      <p class="assumptions-note">These defaults are starting points — adjust any of them and the results above update instantly.</p>
+
+      <div class="assumption-row">
+        <span class="assumption-label">Big-bang overrun avoided (low–high)</span>
+        <div class="assumption-inputs">
+          <input type="number" id="a-overrunLow" value="20" min="0" max="100"> %
+          <span class="dash">–</span>
+          <input type="number" id="a-overrunHigh" value="35" min="0" max="100"> %
+        </div>
+      </div>
+
+      <div class="assumption-row">
+        <span class="assumption-label">Legacy maintenance opex reduction (low–high)</span>
+        <div class="assumption-inputs">
+          <input type="number" id="a-maintLow" value="15" min="0" max="100"> %
+          <span class="dash">–</span>
+          <input type="number" id="a-maintHigh" value="25" min="0" max="100"> %
+        </div>
+      </div>
+
+      <div class="assumption-row">
+        <span class="assumption-label">Fully-loaded cost per engineer / year</span>
+        <div class="assumption-inputs">
+          $ <input type="number" id="a-engCost" value="165000" min="0" step="5000">
+        </div>
+      </div>
+
+      <div class="assumption-row">
+        <span class="assumption-label">Blended cost per audit-prep hour</span>
+        <div class="assumption-inputs">
+          $ <input type="number" id="a-auditCost" value="120" min="0" step="5">
+        </div>
+      </div>
+
+      <p class="assumptions-note assumptions-note--ref">Reference figures (fixed, shown for transparency):</p>
+      <div class="ref-table mono">
+        <div class="ref-row"><span>Hours saved per change — evidence today in minutes / hours / days / weeks</span><span>0 / 2 / 8 / 32</span></div>
+        <div class="ref-row"><span>Changes per year — 1 / 2–5 / 6+ systems in scope</span><span>40 / 90 / 160</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ CTA ============ -->
+  <section class="block cta-block">
+    <div class="cta-row">
+      <a class="btn btn-primary" id="meetCta" href="#">Reply "Let's meet" <span class="arrow">→</span></a>
+      <a class="btn btn-secondary" id="guideCta" href="#">Read the Guide</a>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <span>© <span id="year"></span> Synthetix — Engineered Intelligence</span>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
