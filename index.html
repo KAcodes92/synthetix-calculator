@@ -3,14 +3,17 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Capex/Opex Calculator | Synthetix</title>
-<meta name="description" content="See a directional estimate of capex avoided and opex reduced by choosing governed, wave-based modernization — based on your inputs, with every assumption visible and adjustable.">
+<title>Savings Estimator | Synthetix</title>
+<meta name="description" content="See how much you could save by modernizing step-by-step instead of all at once. Six quick questions, your numbers in seconds.">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
 <link rel="icon" href="assets/logo.png">
+
+<!-- HubSpot form embed script (loads once; renders into the div below when visible) -->
+<script src="https://js.hsforms.net/forms/embed/40221584.js" defer></script>
 </head>
 <body>
 
@@ -22,14 +25,14 @@
   <!-- ============ HEADER ============ -->
   <header class="app-header">
     <img src="assets/logo.png" width="171" height="24" alt="Synthetix — Engineered Intelligence" class="logo">
-    <span class="header-tag mono">CAPEX / OPEX ESTIMATOR</span>
+    <span class="header-tag mono">SAVINGS ESTIMATOR</span>
   </header>
 
   <!-- ============ INTRO ============ -->
   <section class="intro">
-    <p class="eyebrow mono">DIRECTIONAL PLANNING ESTIMATE</p>
-    <h1 class="display">What does governed, wave-based modernization save?</h1>
-    <p class="lede">Six inputs, live results. Every assumption behind the math is visible below — adjust anything you'd model differently.</p>
+    <p class="eyebrow mono">QUICK ESTIMATE</p>
+    <h1 class="display">How much could you save by modernizing step-by-step?</h1>
+    <p class="lede">Answer six quick questions and see your numbers. You can change any of our starting assumptions and watch the results update instantly.</p>
   </section>
 
   <!-- ============ INDUSTRY TOGGLE ============ -->
@@ -48,7 +51,7 @@
     <div class="input-grid">
 
       <label class="field">
-        <span class="field-label">Annual modernization program budget</span>
+        <span class="field-label">How much do you expect to spend upgrading these systems?</span>
         <select id="in-budget">
           <option value="lt2m">Less than $2M</option>
           <option value="2to10m">$2M – $10M</option>
@@ -58,16 +61,16 @@
       </label>
 
       <label class="field">
-        <span class="field-label">Current modernization approach</span>
+        <span class="field-label">What's your plan today?</span>
         <select id="in-approach">
-          <option value="bigbang" selected>Planning a big-bang replacement</option>
-          <option value="notstarted">Not yet started</option>
-          <option value="incremental">Already incremental</option>
+          <option value="bigbang" selected>One big replacement, all at once</option>
+          <option value="notstarted">Haven't started yet</option>
+          <option value="incremental">Already doing it step-by-step</option>
         </select>
       </label>
 
       <label class="field">
-        <span class="field-label">Legacy systems in scope</span>
+        <span class="field-label" id="systemsFieldLabel">How many core banking systems need updating?</span>
         <select id="in-systems">
           <option value="1">1</option>
           <option value="2-5" selected>2 – 5</option>
@@ -76,7 +79,7 @@
       </label>
 
       <label class="field">
-        <span class="field-label">Engineers on legacy maintenance</span>
+        <span class="field-label">How many engineers keep your old systems running?</span>
         <select id="in-engineers">
           <option value="1-5">1 – 5</option>
           <option value="6-15" selected>6 – 15</option>
@@ -86,7 +89,7 @@
       </label>
 
       <label class="field">
-        <span class="field-label">Time to produce audit evidence today</span>
+        <span class="field-label">How long does it take to prove a change was done right, today?</span>
         <select id="in-evidence">
           <option value="minutes">Minutes</option>
           <option value="hours">Hours</option>
@@ -96,47 +99,62 @@
       </label>
 
       <label class="field">
-        <span class="field-label">Planning horizon</span>
+        <span class="field-label">How far ahead are you planning?</span>
         <select id="in-horizon">
-          <option value="12">12 months</option>
-          <option value="24" selected>24 months</option>
-          <option value="36">36 months</option>
+          <option value="12">1 year</option>
+          <option value="24" selected>2 years</option>
+          <option value="36">3 years</option>
         </select>
       </label>
 
     </div>
   </section>
 
-  <!-- ============ RESULTS ============ -->
-  <section class="block results-block">
-    <p class="block-label mono">ESTIMATED IMPACT</p>
+  <!-- ============ GATE: See My Results button ============ -->
+  <section class="block" id="lockedPrompt">
+    <button class="btn btn-primary btn-full" id="seeResultsBtn">
+      See my results <span class="arrow">→</span>
+    </button>
+    <p class="lock-note">Takes 10 seconds — we'll show you a quick form, then your numbers.</p>
+  </section>
+
+  <!-- ============ GATE: HubSpot form (shown after clicking "See my results") ============ -->
+  <section class="block" id="hubspotFormWrap" hidden>
+    <p class="block-label mono">ALMOST THERE</p>
+    <p class="form-intro">Quick details, then your results appear right below.</p>
+    <div class="hs-form-frame" data-region="na1" data-form-id="423f3e39-6d6b-4f29-a942-782e7a29f076" data-portal-id="40221584"></div>
+    <button class="btn-link" id="alreadySubmittedBtn">Already submitted? Show my results →</button>
+  </section>
+
+  <!-- ============ RESULTS (revealed after form submission) ============ -->
+  <section class="block results-block" id="resultsArea" hidden>
+    <p class="block-label mono">YOUR ESTIMATED SAVINGS</p>
 
     <div class="result-cards">
       <div class="result-card" id="capexCard">
-        <span class="result-label mono">CAPEX AVOIDED</span>
+        <span class="result-label mono">UPFRONT SAVINGS</span>
         <span class="result-value display" id="capexValue">—</span>
-        <span class="result-sub" id="capexSub">vs. a typical big-bang replacement</span>
+        <span class="result-sub" id="capexSub">Compared to one big, risky project</span>
       </div>
       <div class="result-card">
-        <span class="result-label mono">OPEX REDUCTION <span id="horizonLabel">/ 24 MO</span></span>
+        <span class="result-label mono">YEARLY SAVINGS <span id="horizonLabel">/ 2 YEARS</span></span>
         <span class="result-value display" id="opexValue">—</span>
-        <span class="result-sub">legacy maintenance + audit-prep time</span>
+        <span class="result-sub">Less spent maintaining old systems and preparing for audits</span>
       </div>
     </div>
 
     <p class="context-line" id="contextLine"></p>
 
-    <!-- Comparison bar chart -->
     <div class="compare-chart">
       <div class="compare-row">
-        <span class="compare-label">Big-bang path <span class="compare-tag mono">TYPICAL EXPOSURE</span></span>
+        <span class="compare-label">One big project <span class="compare-tag mono">RISKIER</span></span>
         <div class="compare-track">
           <div class="compare-fill compare-fill--risk" id="barBigBang"></div>
         </div>
         <span class="compare-value mono" id="barBigBangValue">—</span>
       </div>
       <div class="compare-row">
-        <span class="compare-label">Governed, wave-based path <span class="compare-tag mono">BUDGETED</span></span>
+        <span class="compare-label">Step-by-step plan <span class="compare-tag mono">SAFER</span></span>
         <div class="compare-track">
           <div class="compare-fill compare-fill--governed" id="barGoverned"></div>
         </div>
@@ -144,21 +162,18 @@
       </div>
     </div>
 
-    <p class="disclaimer">A directional planning estimate based on your inputs and the adjustable assumptions below — not a quote or audited projection.</p>
-  </section>
+    <p class="disclaimer">This is a simple estimate based on what you enter — not an official quote.</p>
 
-  <!-- ============ ASSUMPTIONS PANEL ============ -->
-  <section class="block">
     <button class="assumptions-toggle" id="assumptionsToggle" aria-expanded="false">
-      <span>Assumptions used</span>
+      <span>How we got these numbers</span>
       <span class="chevron mono" id="assumptionsChevron">▾</span>
     </button>
 
     <div class="assumptions-panel" id="assumptionsPanel" hidden>
-      <p class="assumptions-note">These defaults are starting points — adjust any of them and the results above update instantly.</p>
+      <p class="assumptions-note">These are starting estimates, tailored a little by industry. Change any number below and your results update right away.</p>
 
       <div class="assumption-row">
-        <span class="assumption-label">Big-bang overrun avoided (low–high)</span>
+        <span class="assumption-label">Extra cost usually avoided by not doing one big project (low–high)</span>
         <div class="assumption-inputs">
           <input type="number" id="a-overrunLow" value="20" min="0" max="100"> %
           <span class="dash">–</span>
@@ -167,7 +182,7 @@
       </div>
 
       <div class="assumption-row">
-        <span class="assumption-label">Legacy maintenance opex reduction (low–high)</span>
+        <span class="assumption-label">How much less you'll spend maintaining old systems (low–high)</span>
         <div class="assumption-inputs">
           <input type="number" id="a-maintLow" value="15" min="0" max="100"> %
           <span class="dash">–</span>
@@ -176,32 +191,28 @@
       </div>
 
       <div class="assumption-row">
-        <span class="assumption-label">Fully-loaded cost per engineer / year</span>
+        <span class="assumption-label">What one engineer costs your company per year</span>
         <div class="assumption-inputs">
           $ <input type="number" id="a-engCost" value="165000" min="0" step="5000">
         </div>
       </div>
 
       <div class="assumption-row">
-        <span class="assumption-label">Blended cost per audit-prep hour</span>
+        <span class="assumption-label">What it costs per hour to prepare for an audit</span>
         <div class="assumption-inputs">
           $ <input type="number" id="a-auditCost" value="120" min="0" step="5">
         </div>
       </div>
 
-      <p class="assumptions-note assumptions-note--ref">Reference figures (fixed, shown for transparency):</p>
+      <p class="assumptions-note assumptions-note--ref">Fixed reference numbers (shown so nothing's hidden):</p>
       <div class="ref-table mono">
-        <div class="ref-row"><span>Hours saved per change — evidence today in minutes / hours / days / weeks</span><span>0 / 2 / 8 / 32</span></div>
-        <div class="ref-row"><span>Changes per year — 1 / 2–5 / 6+ systems in scope</span><span>40 / 90 / 160</span></div>
+        <div class="ref-row"><span>Hours saved per update — if proof takes minutes / hours / days / weeks today</span><span>0 / 2 / 8 / 32</span></div>
+        <div class="ref-row"><span>Updates per year — if you have 1 / 2–5 / 6+ systems</span><span>40 / 90 / 160</span></div>
       </div>
     </div>
-  </section>
 
-  <!-- ============ CTA ============ -->
-  <section class="block cta-block">
     <div class="cta-row">
       <a class="btn btn-primary" id="meetCta" href="#">Reply "Let's meet" <span class="arrow">→</span></a>
-      <a class="btn btn-secondary" id="guideCta" href="#">Read the Guide</a>
     </div>
   </section>
 

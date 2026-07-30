@@ -1,9 +1,27 @@
-# Synthetix — Capex/Opex Calculator
+# Synthetix — Savings Estimator (Capex/Opex Calculator)
 
-A directional planning estimator: 6 inputs, an industry toggle (Banking &
-Financial Services / Insurance / Healthcare), live results, and a fully
-visible, editable assumptions panel. No build step — plain HTML/CSS/JS,
-same pattern as the Governance Readiness Assessment.
+A simple, plain-language savings estimator: 6 questions, an industry toggle
+(Banking & Financial Services / Insurance / Healthcare), a lead-gated
+results reveal via HubSpot, and a fully visible, editable assumptions
+panel. No build step — plain HTML/CSS/JS, same pattern as the Governance
+Readiness Assessment.
+
+## What changed in this version
+
+- **Industry now actually changes the numbers.** Each industry carries its
+  own starting assumptions (overrun %, maintenance-reduction %, cost per
+  engineer, cost per audit hour) — switching the toggle resets these to
+  that industry's defaults, so identical situational inputs produce
+  different results across industries. Previously the toggle only changed
+  copy, which made it look broken.
+- **Copy simplified throughout** — plain, everyday language instead of
+  finance/technical jargon (e.g., "Upfront savings" instead of "Capex
+  avoided," "One big project" instead of "Big-bang path").
+- **Guide button removed** — the CTA row now has a single button.
+- **Results are gated behind a HubSpot form.** Filling in the six inputs
+  no longer reveals results directly. A "See my results" button appears;
+  clicking it reveals the HubSpot form (embed code exactly as provided);
+  submitting it reveals the results below.
 
 ## Files
 
@@ -37,7 +55,27 @@ vercel.json     Static-hosting config (clean URLs, no build command needed)
 | What | Where |
 |---|---|
 | Contact inbox for "Reply Let's meet" | `script.js`, `CONTACT_EMAIL` at the top |
-| Guide download links (per industry) | `script.js`, `INDUSTRIES` object, `guideUrl` fields |
+| Industry-specific default assumptions | `script.js`, `INDUSTRIES` object, `defaults` per industry — see note below |
+
+## How the HubSpot gate works
+
+1. Visitor fills in the six situational questions (industry toggle,
+   budget, approach, systems, engineers, evidence time, horizon).
+2. Clicking **"See my results"** hides that prompt and reveals the HubSpot
+   form (the exact embed code you provided — script tag in `<head>`, the
+   `hs-form-frame` div in the body).
+3. On submission, results are revealed. Detection works via a
+   `window.addEventListener("message", ...)` listener checking for
+   HubSpot's `hsFormCallback` / `onFormSubmitted` postMessage event, which
+   both the classic and newer HubSpot embed scripts fire on submit.
+4. **Fallback included:** a small "Already submitted? Show my results →"
+   link sits below the form. If HubSpot's postMessage event doesn't fire
+   in your specific portal/embed configuration (this can vary by HubSpot
+   account settings), visitors aren't stuck — they can unlock manually.
+   Test the automatic detection after deploying; if it works reliably,
+   you can remove the fallback link, or just leave it as a safety net.
+5. Once unlocked, all six inputs and the assumptions panel recalculate
+   live, same as before — the gate only affects the *first* reveal.
 
 ## How the math works (and why it's a range, not a single number)
 
@@ -63,10 +101,13 @@ values to whatever your team is comfortable standing behind publicly.
 
 ## Content model
 
-- **Industry copy** (regulator phrase, system label, which guide to link)
-  lives in the `INDUSTRIES` object at the top of `script.js` — matches the
-  same structure used in the Assessment tool's `script.js`, so copy changes
-  don't require touching layout code.
+- **Industry copy and defaults** (regulator phrase, system label, and the
+  six default assumption values) live in the `INDUSTRIES` object at the
+  top of `script.js` — matches the same structure used in the Assessment
+  tool's `script.js`, so copy changes don't require touching layout code.
+  Switching the industry toggle resets the assumption fields to that
+  industry's defaults, which is what makes the results actually differ by
+  industry rather than just the surrounding text.
 - **Bucket midpoints** (the representative dollar/headcount figure behind
   each dropdown range) live in `BUDGET_MIDPOINT` and `ENGINEER_MIDPOINT` —
   adjust these if your team wants different anchor points.

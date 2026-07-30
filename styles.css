@@ -289,9 +289,36 @@ select:focus-visible { outline: 2px solid var(--cyan); outline-offset: 1px; bord
 }
 .ref-row span:last-child { color: var(--ink); font-weight: 500; white-space: nowrap; }
 
+/* ---------- Gate: See My Results ---------- */
+#lockedPrompt { text-align: center; }
+.btn-full { width: 100%; }
+.lock-note {
+  font-size: 12.5px; color: var(--text-caption);
+  margin: 12px 0 0 0;
+}
+
+/* ---------- Gate: HubSpot form wrap ---------- */
+.form-intro { font-size: 14px; color: var(--text-secondary); margin: 0 0 18px 0; }
+#hubspotFormWrap .btn-link {
+  display: block;
+  margin: 16px auto 0 auto;
+  background: none; border: none;
+  color: var(--text-caption);
+  font-family: var(--font-body); font-size: 13px;
+  cursor: pointer; text-decoration: underline; text-underline-offset: 3px;
+}
+#hubspotFormWrap .btn-link:hover { color: var(--royal); }
+
+/* ---------- Reveal transition ---------- */
+.results-block[data-revealing="true"] { animation: revealIn 0.5s cubic-bezier(.16,1,.3,1); }
+@keyframes revealIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
 /* ---------- CTA ---------- */
 .cta-block { background: transparent; border: none; padding: 6px 0 0 0; }
-.cta-row { display: flex; gap: 12px; flex-wrap: wrap; }
+.cta-row { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 20px; }
 .cta-row .btn { flex: 1; min-width: 200px; }
 
 .btn {
