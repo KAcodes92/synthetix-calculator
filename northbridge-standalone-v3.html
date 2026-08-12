@@ -1,0 +1,1491 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Savings Estimator | Northbridge (Portfolio Demo)</title>
+<meta name="description" content="Interactive savings estimator for a fictitious governed AI-delivery platform — legacy modernization, greenfield builds, brownfield enhancements, infrastructure work, or application support. Portfolio demonstration by Kartikeya Awasthi.">
+<meta name="robots" content="index, follow">
+<meta property="og:title" content="Savings Estimator — Northbridge (Portfolio Demo)">
+<meta property="og:description" content="An enterprise-grade ROI calculator experience. Fictitious brand, built for educational and portfolio purposes.">
+<meta property="og:type" content="website">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Inter+Tight:wght@600;700;800&display=swap" rel="stylesheet">
+<style>
+/* ============================================
+   NORTHBRIDGE — Savings Estimator
+   Visual system matched to the Claims AI Accelerator:
+   navy/blue gradient hero, white cards, dark navy footer.
+   ============================================ */
+
+:root {
+  --navy-deep: #0A1628;
+  --navy-mid: #1B3A6B;
+  --blue-steel: #2E5FA3;
+  --blue-bright: #3B7DD8;
+  --blue-light: #EBF2FC;
+  --white: #FFFFFF;
+  --black: #0D0D0D;
+
+  --gray-700: #374151;
+  --gray-500: #6B7280;
+  --gray-300: #D1D5DB;
+  --gray-100: #F3F4F6;
+  --gray-50: #F9FAFB;
+
+  --green-600: #059669;
+  --green-100: #D1FAE5;
+  --amber-600: #D97706;
+  --amber-100: #FEF3C7;
+  --red-600: #DC2626;
+
+  --line: var(--gray-300);
+  --line-soft: #E5E7EB;
+  --soft-gray: var(--gray-50);
+
+  --text-primary: var(--black);
+  --text-secondary: var(--gray-700);
+  --text-caption: var(--gray-500);
+
+  --font-display: 'Inter Tight', 'Inter', sans-serif;
+  --font-body: 'Inter', sans-serif;
+
+  --gradient-hero: linear-gradient(145deg, #0A1628 0%, #1B3A6B 55%, #2E5FA3 100%);
+  --gradient-accent: linear-gradient(135deg, #1B3A6B 0%, #3B7DD8 100%);
+
+  --radius-lg: 16px;
+  --radius-md: 10px;
+  --radius-sm: 6px;
+  --max-w: 1120px;
+
+  --shadow-card: 0 1px 3px rgba(0,0,0,0.08), 0 4px 16px rgba(0,0,0,0.06);
+  --shadow-card-hover: 0 8px 28px rgba(10,22,40,0.12);
+  --shadow-btn: 0 10px 24px -8px rgba(27,58,107,0.4);
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0; padding: 0;
+  background: var(--white);
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body { min-height: 100vh; }
+
+.mono { font-family: var(--font-body); }
+.display { font-family: var(--font-display); }
+
+/* ---------- Header ---------- */
+.app-header {
+  position: sticky; top: 0; z-index: 20;
+  background: rgba(255,255,255,0.97);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--gray-300);
+}
+.app-header-inner {
+  max-width: var(--max-w); margin: 0 auto;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 14px 32px; flex-wrap: wrap; row-gap: 8px;
+}
+.header-left { display: flex; align-items: center; gap: 14px; }
+.brand { display: flex; align-items: center; gap: 10px; }
+.brand-mark { display: block; flex-shrink: 0; }
+.brand-word {
+  font-weight: 700; font-size: 15.5px; color: var(--navy-deep);
+  letter-spacing: -0.1px;
+}
+.header-divider { width: 1px; height: 20px; background: var(--gray-300); }
+.header-tag {
+  font-size: 12px; font-weight: 600; color: var(--gray-500);
+  letter-spacing: 0.2px;
+}
+.demo-pill {
+  font-size: 10.5px; font-weight: 600; letter-spacing: 0.6px;
+  color: var(--blue-steel); background: var(--blue-light);
+  border: 1px solid rgba(46,95,163,0.2); border-radius: 100px;
+  padding: 4px 11px; white-space: nowrap;
+}
+@media (max-width: 560px) {
+  .header-tag { display: none; }
+}
+
+/* ---------- Hero ---------- */
+.hero {
+  background: var(--gradient-hero);
+  padding: 56px 32px 60px 32px;
+}
+.hero-inner { max-width: var(--max-w); margin: 0 auto; max-width: 680px; }
+.eyebrow {
+  font-size: 12px; font-weight: 600; letter-spacing: 1.6px;
+  color: #8FB4E8; text-transform: uppercase; margin: 0 0 16px 0;
+}
+.hero h1 {
+  font-family: var(--font-display); font-weight: 700; color: var(--white);
+  font-size: 36px; line-height: 1.18; letter-spacing: -0.7px; margin: 0 0 16px 0;
+}
+.lede { font-size: 16.5px; line-height: 1.6; color: rgba(255,255,255,0.78); margin: 0 0 26px 0; }
+
+.trust-strip { display: flex; flex-wrap: wrap; gap: 12px 24px; }
+.trust-item {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-size: 13px; color: rgba(255,255,255,0.85); font-weight: 500;
+}
+.trust-item svg { color: #6FAFEA; flex-shrink: 0; }
+
+/* ---------- App shell ---------- */
+.app {
+  position: relative;
+  max-width: var(--max-w); width: 100%;
+  margin: 0 auto; padding: 40px 32px 70px 32px;
+}
+
+/* ---------- Progress steps ---------- */
+.steps {
+  display: flex; align-items: center; gap: 10px;
+  margin: 0 0 26px 0;
+}
+.step {
+  display: flex; align-items: center; gap: 8px;
+  font-size: 12px; letter-spacing: 0.3px; font-weight: 600;
+  color: var(--gray-500);
+}
+.step-dot {
+  width: 20px; height: 20px; border-radius: 50%;
+  background: var(--gray-100); color: var(--gray-500);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 10.5px; transition: background 0.2s ease, color 0.2s ease;
+}
+.step[data-active="true"] { color: var(--navy-deep); }
+.step[data-active="true"] .step-dot { background: var(--blue-steel); color: var(--white); }
+.step[data-done="true"] .step-dot { background: var(--green-600); color: var(--white); }
+.step-line { flex: 0 0 28px; height: 1px; background: var(--gray-300); }
+@media (max-width: 480px) {
+  .steps { display: none; }
+}
+
+/* ---------- Dashboard grid ---------- */
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  align-items: start;
+}
+@media (max-width: 900px) {
+  .dashboard-grid { grid-template-columns: 1fr; }
+}
+
+.panel { display: flex; flex-direction: column; gap: 20px; }
+
+@media (min-width: 901px) {
+  .panel-right { position: sticky; top: 96px; }
+}
+
+/* ---------- Cards ---------- */
+.card {
+  background: var(--white);
+  border: 1px solid var(--gray-300);
+  border-radius: var(--radius-lg);
+  padding: 26px;
+  box-shadow: var(--shadow-card);
+  transition: box-shadow 0.25s ease;
+}
+
+.card-eyebrow {
+  font-size: 11px; font-weight: 700; letter-spacing: 1.2px;
+  color: var(--gray-500); margin: 0 0 18px 0;
+}
+
+/* ---------- Engagement type card grid ---------- */
+.engagement-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 10px;
+}
+@media (max-width: 640px) {
+  .engagement-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 400px) {
+  .engagement-grid { grid-template-columns: 1fr; }
+}
+
+.engagement-card {
+  position: relative;
+  display: flex; flex-direction: column; align-items: flex-start; gap: 8px;
+  background: var(--white);
+  border: 1.5px solid var(--gray-300);
+  border-radius: var(--radius-md);
+  padding: 16px 14px 15px 14px;
+  cursor: pointer;
+  text-align: left;
+  transition: border-color 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+}
+.engagement-card:hover { border-color: var(--blue-bright); box-shadow: var(--shadow-card-hover); }
+.engagement-card:focus-visible { outline: 2px solid var(--blue-bright); outline-offset: 2px; }
+
+.engagement-card[aria-selected="true"] {
+  border-color: var(--blue-steel);
+  background: var(--blue-light);
+}
+
+.engagement-icon {
+  width: 36px; height: 36px;
+  background: var(--white);
+  border: 1px solid var(--gray-300);
+  border-radius: 9px;
+  display: flex; align-items: center; justify-content: center;
+}
+
+.engagement-label {
+  font-size: 13.5px; font-weight: 600; color: var(--navy-deep); line-height: 1.3;
+}
+.engagement-blurb {
+  font-size: 11.5px; color: var(--gray-500); line-height: 1.4;
+}
+
+.engagement-check {
+  position: absolute; top: 10px; right: 10px;
+  width: 18px; height: 18px;
+  border-radius: 50%;
+  background: var(--blue-steel);
+  color: var(--white);
+  font-size: 10px;
+  display: flex; align-items: center; justify-content: center;
+  opacity: 0; transform: scale(0.6);
+  transition: opacity 0.18s ease, transform 0.18s ease;
+}
+.engagement-card[aria-selected="true"] .engagement-check { opacity: 1; transform: scale(1); }
+
+/* ---------- Segmented control (with sliding indicator) ---------- */
+.segmented {
+  position: relative;
+  display: flex; gap: 0;
+  background: var(--gray-100);
+  border: 1px solid var(--line-soft);
+  border-radius: 12px;
+  padding: 4px;
+}
+.segment-indicator {
+  position: absolute;
+  top: 4px; left: 4px;
+  width: calc(33.333% - 2.66px);
+  height: calc(100% - 8px);
+  background: var(--gradient-accent);
+  border-radius: 9px;
+  box-shadow: 0 6px 16px -4px rgba(27,58,107,0.45);
+  transition: transform 0.32s cubic-bezier(.22,1,.36,1);
+  z-index: 0;
+}
+.segment {
+  position: relative; z-index: 1;
+  flex: 1;
+  border: none; background: transparent;
+  font-family: var(--font-body); font-size: 13.5px; font-weight: 500;
+  color: var(--gray-700);
+  padding: 13px 10px;
+  border-radius: 9px;
+  cursor: pointer;
+  transition: color 0.2s ease;
+  line-height: 1.3;
+}
+.segment:hover { color: var(--navy-deep); }
+.segment[aria-selected="true"] { color: var(--white); font-weight: 600; }
+.segment:focus-visible { outline: 2px solid var(--blue-bright); outline-offset: 2px; }
+
+@media (max-width: 480px) {
+  .segmented { flex-direction: column; }
+  .segment-indicator { display: none; }
+  .segment[aria-selected="true"] { background: var(--blue-steel); color: var(--white); }
+}
+
+/* ---------- Input grid ---------- */
+.input-grid { display: flex; flex-direction: column; gap: 20px; }
+
+.field { display: flex; flex-direction: column; gap: 8px; }
+.field-label { font-size: 13.5px; color: var(--text-primary); font-weight: 500; line-height: 1.4; }
+
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+@media (max-width: 480px) { .two-col { grid-template-columns: 1fr; } }
+
+.select-wrap { position: relative; }
+
+input[type="text"] {
+  width: 100%;
+  font-family: var(--font-body);
+  font-size: 14.5px;
+  color: var(--text-primary);
+  background: var(--white);
+  border: 1.5px solid var(--gray-300);
+  border-radius: var(--radius-sm);
+  padding: 12px 14px;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+input[type="text"]:hover { border-color: var(--blue-bright); }
+input[type="text"]:focus-visible {
+  outline: none; border-color: var(--blue-steel);
+  box-shadow: 0 0 0 3.5px rgba(46,95,163,0.14);
+}
+input[type="text"].field-error { border-color: var(--red-600); }
+.error-msg {
+  display: none; font-size: 12px; color: var(--red-600); margin-top: -2px;
+}
+.error-msg.show { display: block; }
+
+select {
+  width: 100%;
+  font-family: var(--font-body);
+  font-size: 14.5px;
+  color: var(--text-primary);
+  background: var(--white);
+  border: 1.5px solid var(--gray-300);
+  border-radius: var(--radius-sm);
+  padding: 12px 36px 12px 14px;
+  cursor: pointer;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  appearance: none;
+  -webkit-appearance: none;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='6'><path d='M0 0l5 6 5-6z' fill='%236B7280'/></svg>");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+}
+select:hover { border-color: var(--blue-bright); }
+select:focus-visible {
+  outline: none; border-color: var(--blue-steel);
+  box-shadow: 0 0 0 3.5px rgba(46,95,163,0.14);
+}
+
+/* ---------- Gate cards ---------- */
+.card-gate { text-align: center; padding: 40px 32px; }
+.gate-icon {
+  width: 56px; height: 56px; margin: 0 auto 18px auto;
+  background: var(--blue-light);
+  border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+}
+.gate-title { font-size: 21px; font-weight: 700; color: var(--navy-deep); margin: 0 0 8px 0; font-family: var(--font-display); }
+.gate-copy { font-size: 14.5px; color: var(--gray-700); line-height: 1.55; margin: 0 0 24px 0; }
+
+.btn-full { width: 100%; }
+
+#alreadySubmittedBtn { margin-top: 18px; }
+
+.btn-secondary {
+  background: var(--white);
+  color: var(--blue-steel);
+  border: 1.5px solid var(--gray-300);
+}
+.btn-secondary:hover { border-color: var(--blue-steel); background: var(--blue-light); }
+
+/* ---------- Lead form (replaces HubSpot embed) ---------- */
+.card-gate--form { text-align: left; padding: 32px; }
+.card-gate--form .gate-title { text-align: left; }
+.card-gate--form .gate-copy { text-align: left; }
+.lead-form { display: flex; flex-direction: column; gap: 16px; margin-bottom: 16px; }
+.btn-link {
+  display: block; width: 100%; text-align: center;
+  background: none; border: none; cursor: pointer;
+  font-size: 12px; letter-spacing: 0.2px; color: var(--gray-500);
+  padding: 4px 0; text-decoration: underline; text-underline-offset: 2px;
+}
+.btn-link:hover { color: var(--gray-700); }
+
+/* ---------- Results head ---------- */
+.results-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 18px; flex-wrap: wrap; }
+.confidence-tag {
+  font-size: 10px; font-weight: 700; letter-spacing: 0.5px;
+  color: var(--amber-600); background: var(--amber-100);
+  border: 1px solid rgba(217,119,6,0.25); border-radius: 100px;
+  padding: 3px 10px; cursor: help; white-space: nowrap;
+}
+
+/* ---------- Export actions ---------- */
+.export-row { display: flex; gap: 10px; margin: 4px 0 18px 0; flex-wrap: wrap; }
+.btn-ghost {
+  display: inline-flex; align-items: center; gap: 7px;
+  font-size: 12px; font-weight: 600; letter-spacing: 0.1px;
+  color: var(--gray-700); background: var(--gray-50);
+  border: 1px solid var(--line-soft); border-radius: var(--radius-sm);
+  padding: 9px 14px; cursor: pointer; transition: all 0.15s ease;
+}
+.btn-ghost:hover { color: var(--blue-steel); border-color: var(--blue-steel); background: var(--blue-light); }
+.btn-ghost svg { flex-shrink: 0; }
+
+/* ---------- Results card ---------- */
+.results-card {
+  position: relative;
+  overflow: hidden;
+}
+.results-card::before {
+  content: "";
+  position: absolute; top: 0; left: 0; right: 0; height: 4px;
+  background: var(--gradient-accent);
+}
+
+.results-card[data-revealing="true"] { animation: revealIn 0.55s cubic-bezier(.16,1,.3,1); }
+@keyframes revealIn {
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.result-cards {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin-bottom: 20px;
+}
+@media (max-width: 480px) {
+  .result-cards { grid-template-columns: 1fr; }
+}
+
+.result-card {
+  background: var(--gray-50);
+  border: 1px solid var(--line-soft);
+  border-radius: var(--radius-md);
+  padding: 20px 20px 18px 20px;
+  display: flex; flex-direction: column; gap: 7px;
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+.result-card:hover { box-shadow: var(--shadow-card-hover); transform: translateY(-1px); }
+
+.result-card.result-card--na {
+  background: var(--green-100);
+  border-color: rgba(5,150,105,0.25);
+}
+
+.result-label {
+  font-size: 11px; letter-spacing: 0.6px; color: var(--blue-steel); font-weight: 700;
+}
+.result-value {
+  font-family: var(--font-display);
+  font-size: 28px; font-weight: 700; color: var(--navy-deep); letter-spacing: -0.6px;
+  font-variant-numeric: tabular-nums;
+}
+.result-sub { font-size: 12px; color: var(--gray-500); line-height: 1.4; }
+
+.context-line {
+  font-size: 14px; line-height: 1.6; color: var(--gray-700);
+  margin: 0 0 24px 0;
+  padding: 14px 16px;
+  background: var(--blue-light);
+  border-left: 3px solid var(--blue-steel);
+  border-radius: 0 8px 8px 0;
+}
+
+/* ---------- Comparison chart ---------- */
+.compare-chart { display: flex; flex-direction: column; gap: 16px; margin-bottom: 20px; }
+.compare-row { display: flex; flex-direction: column; gap: 8px; }
+.compare-label {
+  font-size: 13px; font-weight: 500; color: var(--gray-700);
+  display: flex; align-items: center; gap: 9px;
+}
+.compare-tag {
+  font-size: 10px; letter-spacing: 0.5px; font-weight: 700;
+  padding: 3px 8px; border-radius: 10px;
+}
+.compare-tag--risk { color: var(--gray-700); background: var(--gray-100); }
+.compare-tag--safe { color: var(--blue-steel); background: var(--blue-light); }
+
+.compare-track {
+  width: 100%; height: 34px;
+  background: var(--gray-50);
+  background-image: repeating-linear-gradient(90deg, var(--line-soft) 0, var(--line-soft) 1px, transparent 1px, transparent 25%);
+  border-radius: 8px;
+  overflow: hidden;
+  position: relative;
+}
+.compare-fill {
+  height: 100%;
+  width: 0%;
+  border-radius: 8px;
+  transition: width 0.8s cubic-bezier(.22,1,.36,1);
+  display: flex; align-items: center; justify-content: flex-end;
+  padding-right: 10px;
+  min-width: 60px;
+}
+.compare-fill--risk { background: linear-gradient(90deg, #6B7280, #4B5563); }
+.compare-fill--governed { background: var(--gradient-accent); }
+.compare-value-inline {
+  font-size: 12px; font-weight: 600; color: var(--white);
+  white-space: nowrap;
+}
+
+.compare-delta {
+  font-size: 13.5px; color: var(--gray-700); margin: 2px 0 0 0;
+}
+.compare-delta strong { color: var(--navy-deep); font-weight: 700; }
+
+.disclaimer {
+  font-size: 12px; line-height: 1.6; color: var(--gray-500);
+  margin: 0 0 22px 0; font-style: italic;
+}
+
+/* ---------- Assumptions ---------- */
+.assumptions-toggle {
+  width: 100%;
+  display: flex; align-items: center; gap: 9px;
+  background: none; border: none; border-top: 1px solid var(--line-soft);
+  font-family: var(--font-body); font-size: 14px; font-weight: 600; color: var(--navy-deep);
+  cursor: pointer; padding: 18px 0 0 0;
+}
+.assumptions-toggle .chevron { margin-left: auto; transition: transform 0.2s ease; color: var(--gray-500); font-size: 13px; }
+.assumptions-toggle[aria-expanded="true"] .chevron { transform: rotate(180deg); }
+
+.assumptions-panel { margin-top: 18px; padding-top: 4px; }
+.assumptions-note { font-size: 12.5px; color: var(--gray-500); margin: 0 0 16px 0; line-height: 1.55; }
+.assumptions-note--ref { margin-top: 18px; margin-bottom: 10px; }
+
+.assumption-row {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 14px; padding: 11px 0;
+  border-bottom: 1px solid var(--line-soft);
+  flex-wrap: wrap;
+}
+.assumption-row:last-of-type { border-bottom: none; }
+.assumption-label { font-size: 13.5px; color: var(--gray-700); flex: 1; min-width: 200px; }
+.assumption-inputs {
+  display: flex; align-items: center; gap: 6px;
+  font-size: 13.5px; color: var(--text-primary);
+  white-space: nowrap;
+}
+.assumption-inputs input[type="number"] {
+  width: 74px;
+  font-family: var(--font-body);
+  font-size: 13.5px;
+  font-variant-numeric: tabular-nums;
+  border: 1.5px solid var(--gray-300);
+  border-radius: 6px;
+  padding: 7px 8px;
+  color: var(--text-primary);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+.assumption-inputs input[type="number"]:focus-visible {
+  outline: none; border-color: var(--blue-steel);
+  box-shadow: 0 0 0 3px rgba(46,95,163,0.14);
+}
+.dash { color: var(--gray-500); }
+
+.ref-table { display: flex; flex-direction: column; gap: 8px; }
+.ref-row {
+  display: flex; justify-content: space-between; gap: 16px;
+  font-size: 11.5px; color: var(--gray-700);
+  padding: 9px 11px;
+  background: var(--gray-50);
+  border-radius: 6px;
+}
+.ref-row span:last-child { color: var(--navy-deep); font-weight: 600; white-space: nowrap; }
+
+/* ---------- Buttons ---------- */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  font-family: var(--font-body); font-weight: 600; font-size: 15px;
+  border-radius: var(--radius-sm); padding: 15px 26px;
+  text-decoration: none; cursor: pointer; border: none;
+  transition: opacity 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease;
+}
+.btn-primary { background: var(--gradient-accent); color: var(--white); box-shadow: var(--shadow-btn); }
+.btn-primary:hover { opacity: 0.92; transform: translateY(-1px); }
+.btn-primary:active { transform: translateY(0); }
+.arrow { transition: transform 0.2s ease; }
+.btn:hover .arrow { transform: translateX(3px); }
+
+/* ---------- Footer ---------- */
+.site-footer {
+  background: var(--navy-deep);
+  padding: 40px 32px;
+  border-top: 1px solid rgba(255,255,255,0.06);
+}
+.footer-inner {
+  max-width: var(--max-w); margin: 0 auto 20px auto;
+  display: flex; align-items: center; justify-content: space-between;
+  flex-wrap: wrap; gap: 12px 20px;
+}
+.footer-brand { display: flex; align-items: center; gap: 9px; flex-wrap: wrap; }
+.footer-wordmark { font-size: 14px; font-weight: 700; color: var(--white); letter-spacing: -0.1px; }
+.footer-demo-tag {
+  font-size: 9.5px; font-weight: 600; letter-spacing: 0.6px; color: rgba(255,255,255,0.55);
+  border: 1px solid rgba(255,255,255,0.18); border-radius: 100px; padding: 3px 9px;
+}
+.footer-credit { font-size: 12.5px; color: rgba(255,255,255,0.55); }
+.footer-credit strong { color: rgba(255,255,255,0.85); font-weight: 600; }
+.footer-credit a { color: #6FAFEA; text-decoration: none; }
+.footer-credit a:hover { text-decoration: underline; }
+.footer-disclaimer {
+  max-width: var(--max-w); margin: 0 auto;
+  font-size: 11.5px; line-height: 1.6; color: rgba(255,255,255,0.32);
+  padding-top: 18px; border-top: 1px solid rgba(255,255,255,0.08);
+}
+
+/* ---------- Print ---------- */
+.print-only { display: none; }
+@media print {
+  .app-header, .hero, .steps, .panel-left, .card-gate,
+  .export-row, .assumptions-toggle, .site-footer { display: none !important; }
+  .dashboard-grid { display: block; }
+  .panel-right { position: static; }
+  body { background: var(--white); }
+  .print-only { display: block; margin: 24px 32px; }
+}
+
+/* ---------- Accessibility ---------- */
+a:focus-visible, button:focus-visible { outline: 2px solid var(--blue-bright); outline-offset: 2px; }
+
+@media (prefers-reduced-motion: reduce) {
+  * { transition-duration: 0.001ms !important; animation-duration: 0.001ms !important; }
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 480px) {
+  .hero { padding: 40px 20px 44px 20px; }
+  .hero h1 { font-size: 27px; }
+  .app { padding: 32px 18px 50px 18px; }
+  .app-header-inner { padding: 14px 20px; }
+  .card { padding: 20px; }
+  .result-value { font-size: 23px; }
+  .card-gate { padding: 30px 22px; }
+}
+
+</style>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 24 24%27%3E%3Crect width=%2724%27 height=%2724%27 rx=%276%27 fill=%27%232E5FA3%27/%3E%3Cpath d=%27M4 17c2-5 4-8 8-8s6 3 8 8%27 stroke=%27%23fff%27 stroke-width=%272%27 fill=%27none%27 stroke-linecap=%27round%27/%3E%3C/svg%3E">
+</head>
+<body>
+
+<!-- ============ HEADER ============ -->
+<header class="app-header">
+  <div class="app-header-inner">
+    <div class="header-left">
+      <div class="brand" aria-label="Northbridge — Governed AI Delivery">
+        <svg width="30" height="30" viewBox="0 0 30 30" fill="none" aria-hidden="true" class="brand-mark">
+          <rect width="30" height="30" rx="8" fill="url(#nb-grad)"/>
+          <path d="M6 19c2.6-6.2 5.4-9.6 9-9.6s6.4 3.4 9 9.6" stroke="#fff" stroke-width="2.1" fill="none" stroke-linecap="round"/>
+          <circle cx="6" cy="20" r="1.6" fill="#fff"/>
+          <circle cx="24" cy="20" r="1.6" fill="#fff"/>
+          <defs><linearGradient id="nb-grad" x1="0" y1="0" x2="30" y2="30" gradientUnits="userSpaceOnUse"><stop stop-color="#1B3A6B"/><stop offset="1" stop-color="#3B7DD8"/></linearGradient></defs>
+        </svg>
+        <span class="brand-word display">NORTHBRIDGE</span>
+      </div>
+      <span class="header-divider" aria-hidden="true"></span>
+      <span class="header-tag">SAVINGS ESTIMATOR</span>
+    </div>
+    <span class="demo-pill">PORTFOLIO DEMO</span>
+  </div>
+</header>
+
+<!-- ============ HERO ============ -->
+<section class="hero">
+  <div class="hero-inner">
+    <p class="eyebrow">QUICK ESTIMATE</p>
+    <h1 class="display">What could a governed AI delivery partner save you?</h1>
+    <p class="lede">Legacy modernization, a greenfield build, brownfield enhancement, infrastructure work, or application support — see the impact of governed, AI-speed delivery versus traditional delivery. Every assumption is visible and yours to adjust.</p>
+    <div class="trust-strip">
+      <span class="trust-item"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><rect x="3" y="7" width="10" height="7" rx="1.5" stroke="currentColor" stroke-width="1.3"/><path d="M5.5 7V5.5a2.5 2.5 0 015 0V7" stroke="currentColor" stroke-width="1.3"/></svg>Calculations run in your browser</span>
+      <span class="trust-item"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M8 1.5L3 4v5c0 3 2.1 5.5 5 6.5 2.9-1 5-3.5 5-6.5V4L8 1.5z" stroke="currentColor" stroke-width="1.3"/><path d="M5.5 8L7 9.5L10.5 6" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>Every assumption is editable</span>
+      <span class="trust-item"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" stroke="currentColor" stroke-width="1.3"/><path d="M8 5v3.3l2.3 1.3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>Two-minute estimate, no commitment</span>
+    </div>
+  </div>
+</section>
+
+<main class="app">
+
+  <!-- ============ PROGRESS STEPS ============ -->
+  <div class="steps" id="progressSteps" role="list">
+    <span class="step" data-step="1" role="listitem"><span class="step-dot">1</span>Configure</span>
+    <span class="step-line" aria-hidden="true"></span>
+    <span class="step" data-step="2" role="listitem"><span class="step-dot">2</span>Verify</span>
+    <span class="step-line" aria-hidden="true"></span>
+    <span class="step" data-step="3" role="listitem"><span class="step-dot">3</span>Results</span>
+  </div>
+
+  <!-- ============ DASHBOARD GRID ============ -->
+  <div class="dashboard-grid">
+
+    <!-- ---------- LEFT PANEL: Configure ---------- -->
+    <div class="panel panel-left">
+
+      <div class="card">
+        <p class="card-eyebrow mono">01 — WHAT ARE YOU WORKING ON?</p>
+        <div class="engagement-grid" id="engagementGrid" role="tablist">
+          <button class="engagement-card" data-engagement="legacy" role="tab" aria-selected="true">
+            <span class="engagement-check" aria-hidden="true">✓</span>
+            <span class="engagement-icon" aria-hidden="true">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M20 12a8 8 0 10-2.7 6" stroke="#2E5FA3" stroke-width="1.7" stroke-linecap="round"/><path d="M20 5v5h-5" stroke="#2E5FA3" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </span>
+            <span class="engagement-label">Legacy Modernization</span>
+            <span class="engagement-blurb">Modernizing systems you already run</span>
+          </button>
+
+          <button class="engagement-card" data-engagement="greenfield" role="tab" aria-selected="false">
+            <span class="engagement-check" aria-hidden="true">✓</span>
+            <span class="engagement-icon" aria-hidden="true">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 3v18M12 3l4 4M12 3L8 7" stroke="#2E5FA3" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="19" r="2" stroke="#2E5FA3" stroke-width="1.7"/></svg>
+            </span>
+            <span class="engagement-label">Greenfield Development</span>
+            <span class="engagement-blurb">Building something new from scratch</span>
+          </button>
+
+          <button class="engagement-card" data-engagement="brownfield" role="tab" aria-selected="false">
+            <span class="engagement-check" aria-hidden="true">✓</span>
+            <span class="engagement-icon" aria-hidden="true">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M4 7l8-4 8 4-8 4-8-4z" stroke="#2E5FA3" stroke-width="1.7" stroke-linejoin="round"/><path d="M4 12l8 4 8-4M4 17l8 4 8-4" stroke="#2E5FA3" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </span>
+            <span class="engagement-label">Brownfield Enhancement</span>
+            <span class="engagement-blurb">Extending what's already running</span>
+          </button>
+
+          <button class="engagement-card" data-engagement="infrastructure" role="tab" aria-selected="false">
+            <span class="engagement-check" aria-hidden="true">✓</span>
+            <span class="engagement-icon" aria-hidden="true">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><rect x="4" y="4" width="16" height="6" rx="1.4" stroke="#2E5FA3" stroke-width="1.7"/><rect x="4" y="14" width="16" height="6" rx="1.4" stroke="#2E5FA3" stroke-width="1.7"/><path d="M8 7h.01M8 17h.01" stroke="#2E5FA3" stroke-width="2" stroke-linecap="round"/></svg>
+            </span>
+            <span class="engagement-label">Infrastructure &amp; Platform</span>
+            <span class="engagement-blurb">Migrating the platform underneath</span>
+          </button>
+
+          <button class="engagement-card" data-engagement="support" role="tab" aria-selected="false">
+            <span class="engagement-check" aria-hidden="true">✓</span>
+            <span class="engagement-icon" aria-hidden="true">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 2l8 4v6c0 5-3.4 8.4-8 10-4.6-1.6-8-5-8-10V6l8-4z" stroke="#2E5FA3" stroke-width="1.7" stroke-linejoin="round"/><path d="M9 12l2 2 4-4" stroke="#2E5FA3" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </span>
+            <span class="engagement-label">Application Support</span>
+            <span class="engagement-blurb">Keeping what's running, running well</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="card">
+        <p class="card-eyebrow mono">02 — INDUSTRY</p>
+        <div class="segmented" id="industryToggle" role="tablist">
+          <div class="segment-indicator" id="segmentIndicator" aria-hidden="true"></div>
+          <button class="segment" data-industry="bfsi" role="tab" aria-selected="true">Banking &amp; Financial Services</button>
+          <button class="segment" data-industry="insurance" role="tab" aria-selected="false">Insurance</button>
+          <button class="segment" data-industry="healthcare" role="tab" aria-selected="false">Healthcare</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <p class="card-eyebrow mono">03 — YOUR SITUATION</p>
+        <div class="input-grid">
+
+          <label class="field">
+            <span class="field-label">How much do you expect to spend on this work?</span>
+            <div class="select-wrap">
+              <select id="in-budget">
+                <option value="lt2m">Less than $2M</option>
+                <option value="2to10m">$2M – $10M</option>
+                <option value="10to50m" selected>$10M – $50M</option>
+                <option value="50mplus">$50M+</option>
+              </select>
+            </div>
+          </label>
+
+          <label class="field">
+            <span class="field-label">What's your delivery approach today?</span>
+            <div class="select-wrap">
+              <select id="in-approach">
+                <option value="traditional" selected>Traditional, mostly manual delivery</option>
+                <option value="ungoverned">AI-assisted, but ungoverned</option>
+                <option value="governed">Already using governed, audited AI delivery</option>
+              </select>
+            </div>
+          </label>
+
+          <label class="field">
+            <span class="field-label" id="systemsFieldLabel">How many legacy systems are in scope?</span>
+            <div class="select-wrap">
+              <select id="in-systems">
+                <option value="1">1</option>
+                <option value="2-5" selected>2 – 5</option>
+                <option value="6+">6+</option>
+              </select>
+            </div>
+          </label>
+
+          <label class="field">
+            <span class="field-label">How many engineers are involved in this work?</span>
+            <div class="select-wrap">
+              <select id="in-engineers">
+                <option value="1-5">1 – 5</option>
+                <option value="6-15" selected>6 – 15</option>
+                <option value="16-40">16 – 40</option>
+                <option value="40+">40+</option>
+              </select>
+            </div>
+          </label>
+
+          <label class="field">
+            <span class="field-label">How long does it take to prove a change was done right, today?</span>
+            <div class="select-wrap">
+              <select id="in-evidence">
+                <option value="minutes">Minutes</option>
+                <option value="hours">Hours</option>
+                <option value="days" selected>Days</option>
+                <option value="weeks">Weeks</option>
+              </select>
+            </div>
+          </label>
+
+          <label class="field">
+            <span class="field-label">How far ahead are you planning?</span>
+            <div class="select-wrap">
+              <select id="in-horizon">
+                <option value="12">1 year</option>
+                <option value="24" selected>2 years</option>
+                <option value="36">3 years</option>
+              </select>
+            </div>
+          </label>
+
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ---------- RIGHT PANEL: Results ---------- -->
+    <div class="panel panel-right">
+
+      <!-- Locked state -->
+      <div class="card card-gate" id="lockedPrompt">
+        <div class="gate-icon" aria-hidden="true">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none"><path d="M12 2L4 6v6c0 5 3.4 8.4 8 10 4.6-1.6 8-5 8-10V6l-8-4z" stroke="#2E5FA3" stroke-width="1.6" stroke-linejoin="round"/><path d="M9 12l2 2 4-4" stroke="#2E5FA3" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <h2 class="gate-title display">Your results are ready</h2>
+        <p class="gate-copy">Add your details to unlock your personalized savings estimate. It goes straight to Kartikeya’s inbox — nothing else.</p>
+        <button class="btn btn-primary btn-full" id="seeResultsBtn">
+          See my results <span class="arrow">→</span>
+        </button>
+      </div>
+
+      <!-- Form state -->
+      <div class="card card-gate card-gate--form" id="leadFormWrap" hidden>
+        <h2 class="gate-title display" style="margin-bottom:4px;">One quick step</h2>
+        <p class="gate-copy" style="margin-bottom:22px;">Emailed directly to <strong>Kartikeya Awasthi</strong> — no CRM, no mailing list, no follow-up you didn't ask for.</p>
+        <form class="lead-form" id="leadForm" novalidate>
+          <div class="two-col">
+            <label class="field">
+              <span class="field-label">First name *</span>
+              <input type="text" id="lf-firstname" required>
+              <span class="error-msg" id="lf-err-firstname">Required</span>
+            </label>
+            <label class="field">
+              <span class="field-label">Last name *</span>
+              <input type="text" id="lf-lastname" required>
+              <span class="error-msg" id="lf-err-lastname">Required</span>
+            </label>
+          </div>
+          <label class="field">
+            <span class="field-label">Work email *</span>
+            <input type="text" id="lf-email" required placeholder="you@company.com">
+            <span class="error-msg" id="lf-err-email">Enter a valid email</span>
+          </label>
+          <label class="field">
+            <span class="field-label">Company</span>
+            <input type="text" id="lf-company">
+          </label>
+          <button type="submit" class="btn btn-primary btn-full" id="leadSubmitBtn">Show my results <span class="arrow">→</span></button>
+        </form>
+        <button class="btn-link mono" id="alreadySubmittedBtn">Skip — show results without submitting</button>
+      </div>
+
+      <!-- Results state -->
+      <div class="card results-card" id="resultsArea" hidden>
+        <div class="results-head">
+          <p class="card-eyebrow mono" style="margin:0;">YOUR ESTIMATED IMPACT</p>
+          <span class="confidence-tag mono" title="Built from editable starting assumptions, not sourced benchmark data — see methodology below.">DIRECTIONAL ESTIMATE</span>
+        </div>
+
+        <div class="result-cards">
+          <div class="result-card" id="capexCard">
+            <span class="result-label mono">DELIVERY SAVINGS</span>
+            <span class="result-value display" id="capexValue">$0</span>
+            <span class="result-sub" id="capexSub">Compared to traditional delivery</span>
+          </div>
+          <div class="result-card">
+            <span class="result-label mono">YEARLY SAVINGS <span id="horizonLabel">/ 2 YRS</span></span>
+            <span class="result-value display" id="opexValue">$0</span>
+            <span class="result-sub">Less spent on upkeep and audit prep</span>
+          </div>
+        </div>
+
+        <p class="context-line" id="contextLine"></p>
+
+        <div class="compare-chart">
+          <div class="compare-row">
+            <span class="compare-label">Traditional delivery <span class="compare-tag compare-tag--risk mono">SLOWER</span></span>
+            <div class="compare-track">
+              <div class="compare-fill compare-fill--risk" id="barBigBang"><span class="compare-value-inline mono" id="barBigBangValue"></span></div>
+            </div>
+          </div>
+          <div class="compare-row">
+            <span class="compare-label">Northbridge governed delivery <span class="compare-tag compare-tag--safe mono">AI-SPEED</span></span>
+            <div class="compare-track">
+              <div class="compare-fill compare-fill--governed" id="barGoverned"><span class="compare-value-inline mono" id="barGovernedValue"></span></div>
+            </div>
+          </div>
+          <p class="compare-delta" id="compareDelta"></p>
+        </div>
+
+        <div class="export-row">
+          <button class="btn-ghost mono" id="emailEstimateBtn">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M2 4h12v8H2V4z" stroke="currentColor" stroke-width="1.3"/><path d="M2 4l6 5 6-5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Email me this estimate
+          </button>
+          <button class="btn-ghost mono" id="printEstimateBtn">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M4 6V2h8v4M4 11h8v3H4v-3z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/><path d="M2 6h12v4h-2v-2H4v2H2V6z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg>
+            Save as PDF
+          </button>
+        </div>
+
+        <p class="disclaimer">This is a simple estimate based on what you enter — not an official quote.</p>
+
+        <button class="assumptions-toggle" id="assumptionsToggle" aria-expanded="false">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" style="flex:none;"><path d="M12 15a3 3 0 100-6 3 3 0 000 6z" stroke="currentColor" stroke-width="1.8"/><path d="M19.4 13a1.7 1.7 0 00.3 1.9l.1.1a2 2 0 11-2.9 2.9l-.1-.1a1.7 1.7 0 00-1.9-.3 1.7 1.7 0 00-1 1.6V19a2 2 0 11-4 0v-.1a1.7 1.7 0 00-1-1.6 1.7 1.7 0 00-1.9.3l-.1.1a2 2 0 11-2.9-2.9l.1-.1a1.7 1.7 0 00.3-1.9 1.7 1.7 0 00-1.6-1H2a2 2 0 110-4h.1a1.7 1.7 0 001.6-1 1.7 1.7 0 00-.3-1.9l-.1-.1a2 2 0 112.9-2.9l.1.1a1.7 1.7 0 001.9.3H8a1.7 1.7 0 001-1.6V2a2 2 0 114 0v.1a1.7 1.7 0 001 1.6 1.7 1.7 0 001.9-.3l.1-.1a2 2 0 112.9 2.9l-.1.1a1.7 1.7 0 00-.3 1.9V8a1.7 1.7 0 001.6 1H22a2 2 0 110 4h-.1a1.7 1.7 0 00-1.6 1z" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span>How we got these numbers</span>
+          <span class="chevron mono" id="assumptionsChevron">▾</span>
+        </button>
+
+        <div class="assumptions-panel" id="assumptionsPanel" hidden>
+          <p class="assumptions-note">Starting estimates, tailored a little by industry. Change any number and your results update instantly.</p>
+
+          <div class="assumption-row">
+            <span class="assumption-label">Extra cost usually avoided with governed vs. traditional delivery (low–high)</span>
+            <div class="assumption-inputs">
+              <input type="number" id="a-overrunLow" value="20" min="0" max="100"> %
+              <span class="dash">–</span>
+              <input type="number" id="a-overrunHigh" value="35" min="0" max="100"> %
+            </div>
+          </div>
+
+          <div class="assumption-row">
+            <span class="assumption-label">How much less you'll spend on ongoing upkeep (low–high)</span>
+            <div class="assumption-inputs">
+              <input type="number" id="a-maintLow" value="15" min="0" max="100"> %
+              <span class="dash">–</span>
+              <input type="number" id="a-maintHigh" value="25" min="0" max="100"> %
+            </div>
+          </div>
+
+          <div class="assumption-row">
+            <span class="assumption-label">What one engineer costs your company per year</span>
+            <div class="assumption-inputs">
+              $ <input type="number" id="a-engCost" value="165000" min="0" step="5000">
+            </div>
+          </div>
+
+          <div class="assumption-row">
+            <span class="assumption-label">What it costs per hour to prepare for an audit</span>
+            <div class="assumption-inputs">
+              $ <input type="number" id="a-auditCost" value="120" min="0" step="5">
+            </div>
+          </div>
+
+          <p class="assumptions-note assumptions-note--ref">Fixed reference numbers (shown so nothing's hidden):</p>
+          <div class="ref-table mono">
+            <div class="ref-row"><span>Hours saved per update — if proof takes minutes / hours / days / weeks today</span><span>0 / 2 / 8 / 32</span></div>
+            <div class="ref-row"><span>Updates per year — if you have 1 / 2–5 / 6+ systems</span><span>40 / 90 / 160</span></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <svg width="22" height="22" viewBox="0 0 30 30" fill="none" aria-hidden="true">
+        <rect x="0.75" y="0.75" width="28.5" height="28.5" rx="7.5" stroke="rgba(255,255,255,0.3)" stroke-width="1.5"/>
+        <path d="M6 19c2.6-6.2 5.4-9.6 9-9.6s6.4 3.4 9 9.6" stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round"/>
+      </svg>
+      <span class="footer-wordmark display">NORTHBRIDGE</span>
+      <span class="footer-demo-tag mono">FICTITIOUS BRAND · PORTFOLIO DEMO</span>
+    </div>
+    <div class="footer-credit">© <span id="year"></span> · Designed &amp; developed by <strong>Kartikeya Awasthi</strong> · <a href="mailto:awasthikartikeya92@gmail.com">Contact</a></div>
+  </div>
+  <p class="footer-disclaimer">Northbridge is a fictitious company. This tool is a portfolio and educational demonstration only — it does not represent a real product, service, organization, or commercial offer. All figures are illustrative estimates based on user-entered inputs and editable placeholder assumptions, not validated benchmark data, and must not be relied on for business, financial, or purchasing decisions. Not affiliated with or endorsed by any real company.</p>
+</footer>
+
+<!-- Print-only summary, built live from the on-screen results -->
+<div id="printSummary" class="print-only"></div>
+
+<script>
+/* ============================================
+   NORTHBRIDGE — Savings Estimator
+   ============================================ */
+
+// ---------- Engagement types (primary axis) ----------
+// Determines: the "systems in scope" question wording, the verb used in
+// the context line ("modernizing" / "building" / etc.), and whether
+// Delivery Savings applies at all (Application Support is a pure ongoing
+// play with no discrete "big project" to compare against).
+const ENGAGEMENT_TYPES = {
+  legacy: {
+    label: "Legacy Modernization",
+    verb: "modernizing",
+    systemsFieldQuestion: "How many legacy systems are in scope?",
+    showDeliverySavings: true
+  },
+  greenfield: {
+    label: "Greenfield Development",
+    verb: "building",
+    systemsFieldQuestion: "How many new systems or products are you building?",
+    showDeliverySavings: true
+  },
+  brownfield: {
+    label: "Brownfield Enhancement",
+    verb: "extending",
+    systemsFieldQuestion: "How many existing systems are you extending?",
+    showDeliverySavings: true
+  },
+  infrastructure: {
+    label: "Infrastructure & Platform",
+    verb: "migrating",
+    systemsFieldQuestion: "How many environments or platforms are in scope?",
+    showDeliverySavings: true
+  },
+  support: {
+    label: "Application Support",
+    verb: "supporting",
+    systemsFieldQuestion: "How many applications do you support?",
+    showDeliverySavings: false // ongoing play — no discrete project to compare
+  }
+};
+const ENGAGEMENT_ORDER = ["legacy", "greenfield", "brownfield", "infrastructure", "support"];
+
+// ---------- Industry context (secondary axis — regulatory framing + math defaults) ----------
+// NOTE: overrunLow/High, maintLow/High, engCost, and auditCost are
+// starting-point assumptions, tailored per industry as reasonable
+// directional differences — NOT sourced benchmark data. Replace with real
+// figures once your team/finance validates them. Fully editable in the UI.
+const INDUSTRIES = {
+  bfsi: {
+    label: "Banking & Financial Services",
+    regulator: "an OCC-style model-risk review",
+    systemLabel: "core banking systems",
+    defaults: { overrunLow: 20, overrunHigh: 35, maintLow: 15, maintHigh: 25, engCost: 165000, auditCost: 120 }
+  },
+  insurance: {
+    label: "Insurance",
+    regulator: "an NAIC-aligned compliance exam",
+    systemLabel: "policy admin & claims systems",
+    defaults: { overrunLow: 22, overrunHigh: 38, maintLow: 15, maintHigh: 25, engCost: 150000, auditCost: 110 }
+  },
+  healthcare: {
+    label: "Healthcare",
+    regulator: "a HIPAA / clinical-safety review",
+    systemLabel: "EHR & interoperability systems",
+    defaults: { overrunLow: 25, overrunHigh: 40, maintLow: 18, maintHigh: 28, engCost: 155000, auditCost: 130 }
+  }
+};
+
+// ---------- Bucket midpoints (representative anchors, not precise figures) ----------
+const BUDGET_MIDPOINT = { lt2m: 1250000, "2to10m": 6000000, "10to50m": 30000000, "50mplus": 65000000 };
+const ENGINEER_MIDPOINT = { "1-5": 3, "6-15": 10, "16-40": 28, "40+": 55 };
+const HOURS_SAVED_PER_CHANGE = { minutes: 0, hours: 2, days: 8, weeks: 32 };
+const CHANGES_PER_YEAR = { "1": 40, "2-5": 90, "6+": 160 };
+
+let state = {
+  engagement: "legacy",
+  industry: "bfsi",
+  unlocked: false,
+  displayed: { capexLow: 0, capexHigh: 0, opexLow: 0, opexHigh: 0 }
+};
+
+// ---------- DOM refs ----------
+const els = {
+  engagementButtons: document.querySelectorAll("#engagementGrid .engagement-card"),
+  toggleButtons: document.querySelectorAll("#industryToggle .segment"),
+  segmentIndicator: document.getElementById("segmentIndicator"),
+  systemsFieldLabel: document.getElementById("systemsFieldLabel"),
+
+  budget: document.getElementById("in-budget"),
+  approach: document.getElementById("in-approach"),
+  systems: document.getElementById("in-systems"),
+  engineers: document.getElementById("in-engineers"),
+  evidence: document.getElementById("in-evidence"),
+  horizon: document.getElementById("in-horizon"),
+
+  lockedPrompt: document.getElementById("lockedPrompt"),
+  seeResultsBtn: document.getElementById("seeResultsBtn"),
+  leadFormWrap: document.getElementById("leadFormWrap"),
+  leadForm: document.getElementById("leadForm"),
+  leadSubmitBtn: document.getElementById("leadSubmitBtn"),
+  alreadySubmittedBtn: document.getElementById("alreadySubmittedBtn"),
+  resultsArea: document.getElementById("resultsArea"),
+
+  lfFirstname: document.getElementById("lf-firstname"),
+  lfLastname: document.getElementById("lf-lastname"),
+  lfEmail: document.getElementById("lf-email"),
+  lfCompany: document.getElementById("lf-company"),
+
+  emailEstimateBtn: document.getElementById("emailEstimateBtn"),
+  printEstimateBtn: document.getElementById("printEstimateBtn"),
+  printSummary: document.getElementById("printSummary"),
+
+  progressSteps: document.querySelectorAll("#progressSteps .step"),
+
+  capexCard: document.getElementById("capexCard"),
+  capexValue: document.getElementById("capexValue"),
+  capexSub: document.getElementById("capexSub"),
+  opexValue: document.getElementById("opexValue"),
+  horizonLabel: document.getElementById("horizonLabel"),
+  contextLine: document.getElementById("contextLine"),
+
+  barBigBang: document.getElementById("barBigBang"),
+  barBigBangValue: document.getElementById("barBigBangValue"),
+  barGoverned: document.getElementById("barGoverned"),
+  barGovernedValue: document.getElementById("barGovernedValue"),
+  compareDelta: document.getElementById("compareDelta"),
+
+  assumptionsToggle: document.getElementById("assumptionsToggle"),
+  assumptionsPanel: document.getElementById("assumptionsPanel"),
+
+  overrunLow: document.getElementById("a-overrunLow"),
+  overrunHigh: document.getElementById("a-overrunHigh"),
+  maintLow: document.getElementById("a-maintLow"),
+  maintHigh: document.getElementById("a-maintHigh"),
+  engCost: document.getElementById("a-engCost"),
+  auditCost: document.getElementById("a-auditCost"),
+
+  year: document.getElementById("year")
+};
+
+// ---------- Formatting ----------
+const fmtCompact = (n) => new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", notation: "compact", maximumFractionDigits: 1 }).format(n);
+
+// ---------- Engagement type selector ----------
+els.engagementButtons.forEach(btn => {
+  btn.addEventListener("click", () => {
+    els.engagementButtons.forEach(b => b.setAttribute("aria-selected", "false"));
+    btn.setAttribute("aria-selected", "true");
+    state.engagement = btn.dataset.engagement;
+    applyEngagementCopy();
+    recalculate();
+  });
+});
+
+function applyEngagementCopy() {
+  const eng = ENGAGEMENT_TYPES[state.engagement];
+  els.systemsFieldLabel.textContent = eng.systemsFieldQuestion;
+}
+
+// ---------- Industry segmented control ----------
+function moveIndicator(index) {
+  els.segmentIndicator.style.transform = `translateX(${index * 100}%)`;
+}
+
+els.toggleButtons.forEach((btn, i) => {
+  btn.addEventListener("click", () => {
+    els.toggleButtons.forEach(b => b.setAttribute("aria-selected", "false"));
+    btn.setAttribute("aria-selected", "true");
+    moveIndicator(i);
+    state.industry = btn.dataset.industry;
+    applyIndustryDefaults();
+    recalculate();
+  });
+});
+
+function applyIndustryDefaults() {
+  const ind = INDUSTRIES[state.industry];
+  els.overrunLow.value = ind.defaults.overrunLow;
+  els.overrunHigh.value = ind.defaults.overrunHigh;
+  els.maintLow.value = ind.defaults.maintLow;
+  els.maintHigh.value = ind.defaults.maintHigh;
+  els.engCost.value = ind.defaults.engCost;
+  els.auditCost.value = ind.defaults.auditCost;
+}
+
+// ---------- Progress steps ----------
+function updateSteps(activeStep) {
+  els.progressSteps.forEach(el => {
+    const n = Number(el.dataset.step);
+    el.dataset.active = String(n === activeStep);
+    el.dataset.done = String(n < activeStep);
+  });
+}
+
+// ---------- Gate flow: See My Results -> lead form -> Results ----------
+// No CRM or backend. Submissions relay to LEAD_EMAIL via FormSubmit
+// (https://formsubmit.co) as a plain JSON POST — see README for the
+// one-time activation step. If the relay is unreachable, we fall back to
+// opening the visitor's own mail client so the enquiry still lands.
+const LEAD_EMAIL = "awasthikartikeya92@gmail.com";
+const LEAD_ENDPOINT = "https://formsubmit.co/ajax/" + LEAD_EMAIL;
+
+els.seeResultsBtn.addEventListener("click", () => {
+  els.lockedPrompt.hidden = true;
+  els.leadFormWrap.hidden = false;
+  updateSteps(2);
+});
+
+els.alreadySubmittedBtn.addEventListener("click", () => unlockResults());
+
+function clearLeadErrors() {
+  [["lfFirstname", "lf-err-firstname"], ["lfLastname", "lf-err-lastname"], ["lfEmail", "lf-err-email"]].forEach(([f, errId]) => {
+    els[f].classList.remove("field-error");
+    document.getElementById(errId).classList.remove("show");
+  });
+}
+
+function validateLeadForm() {
+  let ok = true;
+  clearLeadErrors();
+  const req = (el, errId) => {
+    if (!el.value.trim()) { el.classList.add("field-error"); document.getElementById(errId).classList.add("show"); ok = false; }
+  };
+  req(els.lfFirstname, "lf-err-firstname");
+  req(els.lfLastname, "lf-err-lastname");
+  const email = els.lfEmail.value.trim();
+  const emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!email || !emailRe.test(email)) {
+    els.lfEmail.classList.add("field-error");
+    document.getElementById("lf-err-email").classList.add("show");
+    ok = false;
+  }
+  return ok;
+}
+
+function collectLead() {
+  return {
+    "First name": els.lfFirstname.value.trim(),
+    "Last name": els.lfLastname.value.trim(),
+    "Work email": els.lfEmail.value.trim(),
+    "Company": els.lfCompany.value.trim() || "—",
+    "Engagement type": ENGAGEMENT_TYPES[state.engagement].label,
+    "Industry": INDUSTRIES[state.industry].label,
+    "Submitted from": window.location.href,
+    "Submitted at": new Date().toLocaleString()
+  };
+}
+
+function mailtoFallback(lead) {
+  const body = Object.keys(lead).map(k => `${k}: ${lead[k]}`).join("\n");
+  const href = "mailto:" + LEAD_EMAIL
+    + "?subject=" + encodeURIComponent("Savings Estimator — new lead: " + lead["First name"] + " " + lead["Last name"])
+    + "&body=" + encodeURIComponent(body);
+  window.location.href = href;
+}
+
+els.leadForm.addEventListener("submit", (e) => {
+  e.preventDefault();
+  if (!validateLeadForm()) return;
+
+  els.leadSubmitBtn.disabled = true;
+  const originalLabel = els.leadSubmitBtn.innerHTML;
+  els.leadSubmitBtn.innerHTML = "Sending&hellip;";
+
+  const lead = collectLead();
+  const payload = { _subject: "Savings Estimator — new lead: " + lead["First name"] + " " + lead["Last name"], _template: "table", _captcha: "false" };
+  Object.keys(lead).forEach(k => payload[k] = lead[k]);
+
+  fetch(LEAD_ENDPOINT, {
+    method: "POST",
+    headers: { "Content-Type": "application/json", "Accept": "application/json" },
+    body: JSON.stringify(payload)
+  })
+    .then(res => {
+      if (!res.ok) throw new Error("Relay responded " + res.status);
+      unlockResults();
+    })
+    .catch(err => {
+      console.warn("Lead relay error, falling back to mailto:", err);
+      mailtoFallback(lead);
+      unlockResults();
+    })
+    .finally(() => {
+      els.leadSubmitBtn.disabled = false;
+      els.leadSubmitBtn.innerHTML = originalLabel;
+    });
+});
+
+function unlockResults() {
+  if (state.unlocked) return;
+  state.unlocked = true;
+  els.leadFormWrap.hidden = true;
+  els.resultsArea.hidden = false;
+  els.resultsArea.dataset.revealing = "true";
+  updateSteps(3);
+  recalculate();
+}
+
+// ---------- Assumptions panel toggle ----------
+els.assumptionsToggle.addEventListener("click", () => {
+  const isOpen = els.assumptionsToggle.getAttribute("aria-expanded") === "true";
+  els.assumptionsToggle.setAttribute("aria-expanded", String(!isOpen));
+  els.assumptionsPanel.hidden = isOpen;
+});
+
+// ---------- Wire up recalculation ----------
+[els.budget, els.approach, els.systems, els.engineers, els.evidence, els.horizon].forEach(el =>
+  el.addEventListener("change", recalculate)
+);
+[els.overrunLow, els.overrunHigh, els.maintLow, els.maintHigh, els.engCost, els.auditCost].forEach(el =>
+  el.addEventListener("input", recalculate)
+);
+
+// ---------- Animated number tween (with cancellation for stale runs) ----------
+const tweenTokens = { capex: 0, opex: 0 };
+
+function tweenRange(el, tokenKey, fromLow, toLow, fromHigh, toHigh, duration = 650) {
+  const myToken = ++tweenTokens[tokenKey];
+  const start = performance.now();
+  function frame(now) {
+    if (tweenTokens[tokenKey] !== myToken) return; // superseded by a newer update — stop writing
+    const t = Math.min((now - start) / duration, 1);
+    const eased = 1 - Math.pow(1 - t, 3);
+    const curLow = fromLow + (toLow - fromLow) * eased;
+    const curHigh = fromHigh + (toHigh - fromHigh) * eased;
+    el.textContent = `${fmtCompact(curLow)}–${fmtCompact(curHigh)}`;
+    if (t < 1) requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
+}
+
+// ---------- Core calculation ----------
+function recalculate() {
+  if (!state.unlocked) return;
+
+  const eng = ENGAGEMENT_TYPES[state.engagement];
+  const ind = INDUSTRIES[state.industry];
+
+  const budgetKey = els.budget.value;
+  const approach = els.approach.value;
+  const systemsKey = els.systems.value;
+  const engineersKey = els.engineers.value;
+  const evidenceKey = els.evidence.value;
+  const horizonMonths = Number(els.horizon.value);
+  const horizonYears = horizonMonths / 12;
+
+  const overrunLow = Number(els.overrunLow.value) / 100;
+  const overrunHigh = Number(els.overrunHigh.value) / 100;
+  const maintLow = Number(els.maintLow.value) / 100;
+  const maintHigh = Number(els.maintHigh.value) / 100;
+  const engCost = Number(els.engCost.value);
+  const auditCost = Number(els.auditCost.value);
+
+  const budgetMidpoint = BUDGET_MIDPOINT[budgetKey];
+
+  // ---- Delivery savings ----
+  const capexLow = budgetMidpoint * overrunLow;
+  const capexHigh = budgetMidpoint * overrunHigh;
+  // Hidden if this engagement type is a pure ongoing play (Application
+  // Support), or if they're already running governed delivery.
+  const showCapex = eng.showDeliverySavings && approach !== "governed";
+
+  // ---- Yearly savings: ongoing upkeep reduction ----
+  const engineerMidpoint = ENGINEER_MIDPOINT[engineersKey];
+  const annualMaintenanceSpend = engineerMidpoint * engCost;
+  const maintSavingsLow = annualMaintenanceSpend * maintLow;
+  const maintSavingsHigh = annualMaintenanceSpend * maintHigh;
+
+  // ---- Yearly savings: audit-prep time ----
+  const hoursSavedPerChange = HOURS_SAVED_PER_CHANGE[evidenceKey];
+  const changesPerYear = CHANGES_PER_YEAR[systemsKey];
+  const auditPrepSavingsAnnual = hoursSavedPerChange * changesPerYear * auditCost;
+
+  const opexLow = (maintSavingsLow + auditPrepSavingsAnnual) * horizonYears;
+  const opexHigh = (maintSavingsHigh + auditPrepSavingsAnnual) * horizonYears;
+
+  // ---- Render: delivery savings card ----
+  if (showCapex) {
+    els.capexCard.classList.remove("result-card--na");
+    els.capexSub.textContent = "Compared to traditional delivery";
+    tweenRange(els.capexValue, "capex", state.displayed.capexLow, capexLow, state.displayed.capexHigh, capexHigh);
+  } else {
+    tweenTokens.capex++; // invalidate any in-flight capex animation before overwriting text
+    els.capexCard.classList.add("result-card--na");
+    if (!eng.showDeliverySavings) {
+      els.capexValue.textContent = "Ongoing play";
+      els.capexSub.textContent = "Support engagements save entirely on the yearly side.";
+    } else {
+      els.capexValue.textContent = "Already governed";
+      els.capexSub.textContent = "You're already running governed delivery — nice.";
+    }
+  }
+
+  // ---- Render: yearly savings card ----
+  const horizonLabelText = horizonMonths === 12 ? "1 YR" : horizonMonths === 24 ? "2 YRS" : "3 YRS";
+  els.horizonLabel.textContent = `/ ${horizonLabelText}`;
+  tweenRange(els.opexValue, "opex", state.displayed.opexLow, opexLow, state.displayed.opexHigh, opexHigh);
+
+  state.displayed = { capexLow: showCapex ? capexLow : 0, capexHigh: showCapex ? capexHigh : 0, opexLow, opexHigh };
+
+  // ---- Context line ----
+  const workPhrase = `${eng.verb} your ${ind.systemLabel}`;
+  els.contextLine.textContent = showCapex
+    ? `For ${workPhrase}, this reflects the value of governed, AI-speed delivery — separate builder, critic, and gatekeeper roles with an audit trail generated by default — versus traditional delivery, the kind of proof ${ind.regulator} would want ready to go, not put together at the last minute.`
+    : `For ${workPhrase}, the savings here come from spending less on upkeep and audit prep — proof ${ind.regulator} would want ready to go, not put together at the last minute.`;
+
+  // ---- Comparison bars ----
+  const bigBangExposure = budgetMidpoint * (1 + overrunHigh);
+  const governedBudget = budgetMidpoint;
+  const maxVal = Math.max(bigBangExposure, governedBudget);
+
+  requestAnimationFrame(() => {
+    els.barBigBang.style.width = `${(bigBangExposure / maxVal) * 100}%`;
+    els.barGoverned.style.width = `${(governedBudget / maxVal) * 100}%`;
+  });
+  els.barBigBangValue.textContent = fmtCompact(bigBangExposure);
+  els.barGovernedValue.textContent = fmtCompact(governedBudget);
+
+  const delta = bigBangExposure - governedBudget;
+  els.compareDelta.innerHTML = `That's roughly <strong>${fmtCompact(delta)}</strong> less exposure with governed, AI-speed delivery.`;
+}
+
+// ---------- Export: email me this estimate (self-service, not a lead capture) ----------
+els.emailEstimateBtn.addEventListener("click", () => {
+  const eng = ENGAGEMENT_TYPES[state.engagement].label;
+  const ind = INDUSTRIES[state.industry].label;
+  const lines = [
+    `Northbridge Savings Estimator — your results`,
+    ``,
+    `Engagement type: ${eng}`,
+    `Industry: ${ind}`,
+    `Delivery savings: ${els.capexValue.textContent}`,
+    `Yearly savings (${els.horizonLabel.textContent.replace("/ ", "")}): ${els.opexValue.textContent}`,
+    ``,
+    els.contextLine.textContent,
+    ``,
+    `Traditional delivery: ${els.barBigBangValue.textContent}`,
+    `Northbridge governed delivery: ${els.barGovernedValue.textContent}`,
+    ``,
+    `This is a self-generated estimate — not an official quote.`
+  ].join("\n");
+  const href = "mailto:?subject=" + encodeURIComponent("My Northbridge savings estimate")
+    + "&body=" + encodeURIComponent(lines);
+  window.location.href = href;
+});
+
+// ---------- Export: save as PDF (print) ----------
+els.printEstimateBtn.addEventListener("click", () => {
+  const eng = ENGAGEMENT_TYPES[state.engagement].label;
+  const ind = INDUSTRIES[state.industry].label;
+  els.printSummary.innerHTML = `
+    <h1 style="font-family:${getComputedStyle(document.documentElement).getPropertyValue('--font-display')};margin:0 0 4px 0;">Northbridge Savings Estimate</h1>
+    <p style="color:#5C6578;margin:0 0 20px 0;font-size:13px;">${eng} · ${ind} · Generated ${new Date().toLocaleDateString()}</p>
+    <div style="display:flex;gap:24px;margin-bottom:20px;">
+      <div><div style="font-size:11px;letter-spacing:1px;color:#8B93A3;">DELIVERY SAVINGS</div><div style="font-size:22px;font-weight:600;">${els.capexValue.textContent}</div></div>
+      <div><div style="font-size:11px;letter-spacing:1px;color:#8B93A3;">YEARLY SAVINGS ${els.horizonLabel.textContent}</div><div style="font-size:22px;font-weight:600;">${els.opexValue.textContent}</div></div>
+    </div>
+    <p style="font-size:13px;line-height:1.6;color:#374151;max-width:600px;">${els.contextLine.textContent}</p>
+    <p style="font-size:12px;color:#8B93A3;margin-top:24px;">This is a self-generated, directional estimate — not an official quote. Northbridge is a fictitious company; this tool is a portfolio demonstration by Kartikeya Awasthi.</p>
+  `;
+  window.print();
+});
+
+// ---------- Init ----------
+els.year.textContent = new Date().getFullYear();
+applyEngagementCopy();
+applyIndustryDefaults();
+moveIndicator(0);
+updateSteps(1);
+
+</script>
+</body>
+</html>
